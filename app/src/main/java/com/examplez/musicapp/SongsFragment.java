@@ -1,12 +1,22 @@
 package com.examplez.musicapp;
 
+import static com.examplez.musicapp.MainActivity.musicFiles;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.examplez.musicapp.databinding.FragmentSongsBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +33,9 @@ public class SongsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private FragmentSongsBinding binding;
+    private MusicAdapter musicAdapter;
+    private RecyclerView recyclerView;
 
     public SongsFragment() {
         // Required empty public constructor
@@ -58,7 +71,20 @@ public class SongsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_songs, container, false);
+        binding = FragmentSongsBinding.inflate(getLayoutInflater());
+        binding.recyclerView.setHasFixedSize(true);
+
+
+
+        if (!(musicFiles.size() < 1)) {
+            musicAdapter = new MusicAdapter(getContext(), musicFiles);
+            binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
+            binding.recyclerView.setAdapter(musicAdapter);
+
+        }
+
+
+        return binding.getRoot();
     }
+
 }

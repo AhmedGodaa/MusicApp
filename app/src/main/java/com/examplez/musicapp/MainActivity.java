@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tab;
     public static final int REQUEST_CODE = 1;
-    ArrayList<MusicFiles> musicFiles;
+    static ArrayList<MusicFiles> musicFiles;
 
 
     @Override
@@ -40,8 +41,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         permission();
         init();
+
 
         binding.viewpager.setAdapter(tapAccessorAdapter);
         tab.setupWithViewPager(viewPager);
