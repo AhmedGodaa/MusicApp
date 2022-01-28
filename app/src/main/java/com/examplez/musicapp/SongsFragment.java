@@ -2,19 +2,28 @@ package com.examplez.musicapp;
 
 import static com.examplez.musicapp.MainActivity.musicFiles;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+
+
+import androidx.core.app.ActivityOptionsCompat;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.transition.Explode;
+
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.examplez.musicapp.databinding.FragmentSongsBinding;
+import com.examplez.musicapp.databinding.ItemContainerMusicBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +100,26 @@ public class SongsFragment extends Fragment implements MusicListener {
     @Override
     public void onMusicClicked(MusicFiles musicFiles) {
         Intent intent = new Intent(getContext(), PlayerActivity.class);
-        startActivity(intent);
+        intent.putExtra(Constants.KEY_TITLE, musicFiles.getTitle());
+        intent.putExtra(Constants.KEY_ALBUM, musicFiles.getAlbum());
+        intent.putExtra(Constants.KEY_ARTIST, musicFiles.getArtist());
+        intent.putExtra(Constants.KEY_PATH, musicFiles.getPath());
+        intent.putExtra(Constants.KEY_DURATION, musicFiles.getDuration());
+        setAnimation(intent);
+    }
+
+    private void setAnimation(Intent intent) {
+        ItemContainerMusicBinding itemContainerMusicBinding = ItemContainerMusicBinding.inflate(getLayoutInflater());
+
+        Pair[] pairs = new Pair[1];
+        pairs[0] = new Pair<View, String>(itemContainerMusicBinding.audioImage, "imageTransition");
+        Pair<View, String> p1 = Pair.create(itemContainerMusicBinding.audioImage, "imageTransition");
+
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), pairs);
+        startActivity(intent, options.toBundle());
+
+
+
+
     }
 }
