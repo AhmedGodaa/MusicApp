@@ -60,9 +60,15 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
         }
 
         void setMusicData(MusicFiles musicFiles) {
-            byte[] image = getAlbumArt(musicFiles.getPath());
             binding.musicTitle.setText(musicFiles.getTitle());
-            Glide.with(context).load(image).centerCrop().into(binding.audioImage);
+
+            byte[] image = getAlbumArt(musicFiles.getPath());
+            if (image == null) {
+                Glide.with(context).load(R.drawable.ic_launcher_background).centerCrop().into(binding.audioImage);
+            } else {
+                Glide.with(context).load(image).centerCrop().into(binding.audioImage);
+            }
+
 
         }
 
