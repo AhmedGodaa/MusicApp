@@ -18,10 +18,12 @@ import java.util.ArrayList;
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHolder> {
     private Context context;
     private ArrayList<MusicFiles> musicFiles;
+    private MusicListener musicListener;
 
-    public MusicAdapter(Context context, ArrayList<MusicFiles> musicFiles) {
+    public MusicAdapter(Context context, ArrayList<MusicFiles> musicFiles, MusicListener musicListener) {
         this.context = context;
         this.musicFiles = musicFiles;
+        this.musicListener = musicListener;
     }
 
     @NonNull
@@ -38,7 +40,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
     @Override
     public void onBindViewHolder(@NonNull MusicViewHolder holder, int position) {
         holder.setMusicData(musicFiles.get(position));
-        holder.binding.musicTitle.setText(musicFiles.get(position).getTitle());
+
 
 
     }
@@ -61,6 +63,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
 
         void setMusicData(MusicFiles musicFiles) {
             binding.musicTitle.setText(musicFiles.getTitle());
+            binding.getRoot().setOnClickListener(v -> musicListener.onMusicClicked(musicFiles));
 
             byte[] image = getAlbumArt(musicFiles.getPath());
             if (image == null) {

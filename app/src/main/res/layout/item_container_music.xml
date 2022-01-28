@@ -2,15 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_audio"
     android:layout_width="match_parent"
-    android:layout_margin="5dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
 
     <ImageView
         android:id="@+id/audioImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
-
-        android:padding="5dp" />
+        android:padding="5dp"
+        android:transitionName="imageTransition" />
 
     <TextView
         android:id="@+id/musicTitle"

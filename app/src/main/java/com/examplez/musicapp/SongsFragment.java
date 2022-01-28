@@ -2,6 +2,7 @@ package com.examplez.musicapp;
 
 import static com.examplez.musicapp.MainActivity.musicFiles;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -23,7 +24,7 @@ import java.util.List;
  * Use the {@link SongsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SongsFragment extends Fragment {
+public class SongsFragment extends Fragment implements MusicListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -75,10 +76,9 @@ public class SongsFragment extends Fragment {
         binding.recyclerView.setHasFixedSize(true);
 
 
-
         if (!(musicFiles.size() < 1)) {
-            musicAdapter = new MusicAdapter(getContext(), musicFiles);
-            binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
+            musicAdapter = new MusicAdapter(getContext(), musicFiles, this);
+            binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
             binding.recyclerView.setAdapter(musicAdapter);
 
         }
@@ -87,4 +87,10 @@ public class SongsFragment extends Fragment {
         return binding.getRoot();
     }
 
+
+    @Override
+    public void onMusicClicked(MusicFiles musicFiles) {
+        Intent intent = new Intent(getContext(), PlayerActivity.class);
+        startActivity(intent);
+    }
 }
