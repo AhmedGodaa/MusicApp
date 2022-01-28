@@ -67,6 +67,17 @@
             android:scaleType="centerCrop"
             android:transitionName="imageTransition" />
 
+        <TextView
+            android:id="@+id/songName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="25dp"
+            android:maxLength="25"
+            android:maxLines="1"
+            android:textSize="20sp" />
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -78,12 +89,12 @@
         android:layout_alignParentEnd="true">
 
         <TextView
-            android:id="@+id/tvdurationPlay"
+            android:id="@+id/tvDurationPlayed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_marginStart="10dp"
-            android:text="1:28"
+            android:text="@string/_1_28"
             android:textColor="@color/black" />
 
         <TextView
@@ -92,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
-            android:text="4:28"
+            android:text="@string/_4_28"
             android:textColor="@color/black" />
 
         <SeekBar
