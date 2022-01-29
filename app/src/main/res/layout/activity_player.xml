@@ -145,7 +145,7 @@
             android:src="@drawable/ic_repeat" />
 
         <ImageView
-            android:id="@+id/btnSkipPrevious"
+            android:id="@+id/btnPrevious"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
@@ -154,7 +154,7 @@
             android:src="@drawable/ic_skip_previous" />
 
         <ImageView
-            android:id="@+id/btnSkpNext"
+            android:id="@+id/btnNext"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerVertical="true"

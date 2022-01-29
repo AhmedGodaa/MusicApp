@@ -45,7 +45,7 @@ public class SongsFragment extends Fragment implements MusicListener {
     private String mParam2;
     private FragmentSongsBinding binding;
     private MusicAdapter musicAdapter;
-    private RecyclerView recyclerView;
+    private int position ;
 
     public SongsFragment() {
         // Required empty public constructor
@@ -100,12 +100,20 @@ public class SongsFragment extends Fragment implements MusicListener {
     @Override
     public void onMusicClicked(MusicFiles musicFiles) {
         Intent intent = new Intent(getContext(), PlayerActivity.class);
+        intent.putExtra(Constants.KEY_POSITION, position);
         intent.putExtra(Constants.KEY_TITLE, musicFiles.getTitle());
         intent.putExtra(Constants.KEY_ALBUM, musicFiles.getAlbum());
         intent.putExtra(Constants.KEY_ARTIST, musicFiles.getArtist());
         intent.putExtra(Constants.KEY_PATH, musicFiles.getPath());
         intent.putExtra(Constants.KEY_DURATION, musicFiles.getDuration());
         setAnimation(intent);
+    }
+
+    @Override
+    public void musicListener(int i) {
+        this.position = i;
+
+
     }
 
     private void setAnimation(Intent intent) {

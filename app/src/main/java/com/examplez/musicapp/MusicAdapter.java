@@ -39,7 +39,9 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MusicViewHolder holder, int position) {
-        holder.setMusicData(musicFiles.get(position));
+        holder.setMusicData(musicFiles.get(position),position);
+
+
 
 
 
@@ -61,9 +63,15 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
 
         }
 
-        void setMusicData(MusicFiles musicFiles) {
+        void setMusicData(MusicFiles musicFiles,int position) {
             binding.musicTitle.setText(musicFiles.getTitle());
-            binding.getRoot().setOnClickListener(v -> musicListener.onMusicClicked(musicFiles));
+            binding.getRoot().setOnClickListener(v -> {
+                        musicListener.onMusicClicked(musicFiles);
+                        musicListener.musicListener(position);
+
+                    }
+
+            );
 
             byte[] image = getAlbumArt(musicFiles.getPath());
             if (image == null) {
