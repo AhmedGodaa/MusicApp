@@ -34,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tab;
     public static final int REQUEST_CODE = 1;
     static ArrayList<MusicFiles> musicFiles;
+    static boolean shuffleBoolean = false, repeatBoolean = false;
+
+
+
 
 
     @Override
@@ -73,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 // do whatever you want permission related;
 
 
-
             } else {
                 ActivityCompat.requestPermissions(MainActivity.this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
@@ -111,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 String artist = cursor.getString(4);
                 MusicFiles musicFiles = new MusicFiles(path, title, artist, duration, album);
 //                take log.e for check
-                Log.e("Path : " + path, "Album: "+album);
+                Log.e("Path : " + path, "Album: " + album);
                 tempAudioList.add(musicFiles);
             }
             cursor.close();
