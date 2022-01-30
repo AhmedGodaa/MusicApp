@@ -1,9 +1,6 @@
 package com.examplez.musicapp;
 
 import static com.examplez.musicapp.MainActivity.musicFiles;
-import static com.examplez.musicapp.MainActivity.repeatBoolean;
-import static com.examplez.musicapp.MainActivity.shuffleBoolean;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.palette.graphics.Palette;
@@ -48,31 +45,11 @@ public class PlayerActivity extends AppCompatActivity {
         musicActions();
         setSeekBar();
         setSongData();
-        shuffleAndRepeat();
+
+
     }
 
-    private void shuffleAndRepeat() {
-        binding.btnShuffle.setOnClickListener(v -> {
-            if (shuffleBoolean) {
-                shuffleBoolean = false;
-                binding.btnShuffle.setImageResource(R.drawable.ic_shuffle_on);
-            } else {
-                shuffleBoolean = true;
-                binding.btnShuffle.setImageResource(R.drawable.ic_shuffle);
-            }
 
-        });
-        binding.btnRepeat.setOnClickListener(v -> {
-            if (repeatBoolean) {
-                repeatBoolean = false;
-                binding.btnShuffle.setImageResource(R.drawable.ic_repeat_on);
-            } else {
-                repeatBoolean = true;
-                binding.btnRepeat.setImageResource(R.drawable.ic_repeat);
-            }
-
-        });
-    }
 
     private void setSongData() {
         binding.songName.setText(getIntent().getStringExtra(Constants.KEY_TITLE));
@@ -228,15 +205,6 @@ public class PlayerActivity extends AppCompatActivity {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
-            if (shuffleBoolean && !repeatBoolean) {
-//                if random and no repeat  -> random
-                position = getRandom(listSongs.size() - 1);
-
-            } else if (!shuffleBoolean && !repeatBoolean) {
-//                if no random and no repeat ->  normal
-                position = ((position + 1) % listSongs.size());
-
-            }
             position = ((position + 1) % listSongs.size());
             uri = Uri.parse(listSongs.get(position).getPath());
             metaData(uri);
@@ -261,15 +229,7 @@ public class PlayerActivity extends AppCompatActivity {
         } else {
             mediaPlayer.stop();
             mediaPlayer.release();
-            if (shuffleBoolean && !repeatBoolean) {
-//                if random and no repeat  -> random
-                position = getRandom(listSongs.size() - 1);
-
-            } else if (!shuffleBoolean && !repeatBoolean) {
-//                if no random and no repeat ->  normal
-                position = ((position + 1) % listSongs.size());
-
-            }
+            position = ((position + 1) % listSongs.size());
             uri = Uri.parse(listSongs.get(position).getPath());
             metaData(uri);
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
@@ -308,7 +268,6 @@ public class PlayerActivity extends AppCompatActivity {
             metaData(uri);
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             binding.tvDurationTotal.setText(formattedTime(mediaPlayer.getDuration() / 1000));
-
             binding.songName.setText(listSongs.get(position).getTitle());
             binding.seekBar.setMax(mediaPlayer.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {

@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tab;
     public static final int REQUEST_CODE = 1;
     static ArrayList<MusicFiles> musicFiles;
-    static boolean shuffleBoolean = false, repeatBoolean = false;
+
 
 
 
