@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import me.tankery.lib.circularseekbar.CircularSeekBar;
+
 public class PlayerActivity extends AppCompatActivity {
     private ActivityPlayerBinding binding;
     private static ArrayList<MusicFiles> listSongs;
@@ -32,6 +34,7 @@ public class PlayerActivity extends AppCompatActivity {
     static MediaPlayer mediaPlayer;
     private Handler handler = new Handler();
     private Thread playThread, prevThread, nextThread;
+
 
 
     @Override
@@ -58,21 +61,23 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     private void setSeekBar() {
-        binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+        binding.seekBar.setOnSeekBarChangeListener(new  CircularSeekBar.OnCircularSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+            public void onProgressChanged(CircularSeekBar seekBar, float i, boolean b) {
                 if (mediaPlayer != null && b) {
-                    mediaPlayer.seekTo(i * 1000);
+                    int c = (int) i;
+                    mediaPlayer.seekTo(c * 1000);
                 }
             }
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(CircularSeekBar seekBar) {
 
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(CircularSeekBar seekBar) {
 
             }
         });
