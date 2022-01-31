@@ -87,7 +87,7 @@ public class SongsFragment extends Fragment implements MusicListener {
 
         if (!(musicFiles.size() < 1)) {
             musicAdapter = new MusicAdapter(getContext(), musicFiles, this);
-            binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, true));
+            binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
             binding.recyclerView.setAdapter(musicAdapter);
 
         }
