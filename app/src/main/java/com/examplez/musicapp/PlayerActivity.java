@@ -6,6 +6,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.palette.graphics.Palette;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.ObjectAnimator;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.GradientDrawable;
@@ -39,6 +42,7 @@ public class PlayerActivity extends AppCompatActivity {
     static MediaPlayer mediaPlayer;
     private Handler handler = new Handler();
     private Thread playThread, prevThread, nextThread;
+    private ObjectAnimator anim;
 
 
     @Override
@@ -52,18 +56,16 @@ public class PlayerActivity extends AppCompatActivity {
         musicActions();
         setSeekBar();
         setSongData();
-        setAnimation();
+//        setAnimation(true);
 
+        anim = ObjectAnimator.ofFloat(binding.songImageContainer, "rotation", 0, 360);
+        anim.setDuration(15000);
+        anim.setRepeatCount(5);
+        anim.setRepeatCount(Animation.INFINITE);
+        anim.setInterpolator(new LinearInterpolator());
+        anim.setRepeatMode(ObjectAnimator.RESTART);
+        anim.start();
 
-    }
-
-    private void setAnimation() {
-//        Animation imageAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_music_image);
-        RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        rotate.setDuration(5000);
-        rotate.setRepeatCount(Animation.INFINITE);
-        rotate.setInterpolator(new LinearInterpolator());
-        binding.songImageContainer.setAnimation(rotate);
 
     }
 
@@ -130,6 +132,7 @@ public class PlayerActivity extends AppCompatActivity {
 
     private void buttonPlayPause() {
         if (mediaPlayer.isPlaying()) {
+            anim.pause();
             binding.btnPlayPause.setImageResource(R.drawable.ic_play);
             binding.seekBar.setMax(mediaPlayer.getDuration() / 1000);
             mediaPlayer.pause();
@@ -147,6 +150,7 @@ public class PlayerActivity extends AppCompatActivity {
 //
 
         } else {
+            anim.resume();
             binding.btnPlayPause.setImageResource(R.drawable.ic_pause);
             binding.seekBar.setMax(mediaPlayer.getDuration() / 1000);
             mediaPlayer.start();
@@ -273,10 +277,6 @@ public class PlayerActivity extends AppCompatActivity {
         }
     }
 
-    private int getRandom(int i) {
-        Random random = new Random();
-        return random.nextInt(i + 1);
-    }
 
     private void buttonPrevious() {
         if (mediaPlayer.isPlaying()) {
@@ -363,12 +363,13 @@ public class PlayerActivity extends AppCompatActivity {
         byte[] art = retriever.getEmbeddedPicture();
         Bitmap bitmap;
 
-
         if (art != null) {
             Glide.with(this)
                     .asBitmap()
                     .load(art)
                     .into(binding.songImageContainer);
+
+
             bitmap = BitmapFactory.decodeByteArray(art, 0, art.length);
             Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                 @Override
