@@ -1,6 +1,7 @@
 package com.examplez.musicapp;
 
 import static com.examplez.musicapp.MainActivity.musicFiles;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.palette.graphics.Palette;
@@ -14,6 +15,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -36,7 +41,6 @@ public class PlayerActivity extends AppCompatActivity {
     private Thread playThread, prevThread, nextThread;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,10 +52,20 @@ public class PlayerActivity extends AppCompatActivity {
         musicActions();
         setSeekBar();
         setSongData();
+        setAnimation();
 
 
     }
 
+    private void setAnimation() {
+//        Animation imageAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_music_image);
+        RotateAnimation rotate = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotate.setDuration(5000);
+        rotate.setRepeatCount(Animation.INFINITE);
+        rotate.setInterpolator(new LinearInterpolator());
+        binding.songImageContainer.setAnimation(rotate);
+
+    }
 
 
     private void setSongData() {
@@ -62,7 +76,7 @@ public class PlayerActivity extends AppCompatActivity {
 
     private void setSeekBar() {
 
-        binding.seekBar.setOnSeekBarChangeListener(new  CircularSeekBar.OnCircularSeekBarChangeListener() {
+        binding.seekBar.setOnSeekBarChangeListener(new CircularSeekBar.OnCircularSeekBarChangeListener() {
             @Override
             public void onProgressChanged(CircularSeekBar seekBar, float i, boolean b) {
                 if (mediaPlayer != null && b) {

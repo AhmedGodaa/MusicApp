@@ -61,21 +61,32 @@
         <me.tankery.lib.circularseekbar.CircularSeekBar
             android:id="@+id/seekBar"
             android:layout_width="800dp"
-            android:layout_centerInParent="true"
-            android:layout_height="800dp" />
+            android:layout_height="800dp"
+            android:layout_centerInParent="true" />
 
-        <ImageView
+        <!--        <com.makeramen.roundedimageview.RoundedImageView-->
+        <!--            android:id="@+id/songImageContainer"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_alignParentStart="true"-->
+        <!--            android:layout_alignParentTop="true"-->
+        <!--            android:layout_alignParentEnd="true"-->
+        <!--            android:layout_marginStart="0dp"-->
+        <!--            android:layout_marginTop="0dp"-->
+        <!--            android:layout_marginEnd="0dp"-->
+        <!--            android:background="@color/purple_200"-->
+        <!--            android:scaleType="centerCrop"-->
+        <!--            android:transitionName="imageTransition" />-->
+
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/songImageContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="0dp"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:interpolator="@android:anim/linear_interpolator"
+            android:layout_centerInParent="true"
+            android:background="@drawable/background_image"
             android:scaleType="centerCrop"
-            android:transitionName="imageTransition" />
+            app:riv_oval="true" />
 
         <ImageView
             android:id="@+id/songImageContainerGradient"
