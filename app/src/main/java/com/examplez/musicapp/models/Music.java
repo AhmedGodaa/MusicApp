@@ -1,6 +1,6 @@
-package com.examplez.musicapp;
+package com.examplez.musicapp.models;
 
-public class MusicFiles {
+public class Music {
     private String path;
     private String title;
     private String artist;
@@ -8,7 +8,7 @@ public class MusicFiles {
     private String duration;
     private String id;
 
-    public MusicFiles(String path, String title, String artist, String album, String duration, String id) {
+    public Music(String path, String title, String artist, String album, String duration, String id) {
         this.path = path;
         this.title = title;
         this.artist = artist;

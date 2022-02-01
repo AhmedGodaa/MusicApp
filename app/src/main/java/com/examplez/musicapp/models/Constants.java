@@ -1,4 +1,4 @@
-package com.examplez.musicapp;
+package com.examplez.musicapp.models;
 
 public class Constants {
     public static final String  KEY_TITLE = "music";

@@ -1,32 +1,30 @@
-package com.examplez.musicapp;
+package com.examplez.musicapp.fragments;
 
-import static com.examplez.musicapp.MainActivity.musicFiles;
+import static com.examplez.musicapp.activites.MainActivity.musicFiles;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 
 
-import androidx.core.app.ActivityOptionsCompat;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.transition.Explode;
 
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Toast;
 
+import com.examplez.musicapp.models.Music;
+import com.examplez.musicapp.activites.PlayerActivity;
+
+import com.examplez.musicapp.adapters.MusicAdapter;
 import com.examplez.musicapp.databinding.FragmentSongsBinding;
 import com.examplez.musicapp.databinding.ItemContainerMusicBinding;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.examplez.musicapp.listeners.MusicListener;
+import com.examplez.musicapp.models.Constants;;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -98,7 +96,7 @@ public class SongsFragment extends Fragment implements MusicListener {
 
 
     @Override
-    public void onMusicClicked(MusicFiles musicFiles) {
+    public void onMusicClicked(Music musicFiles) {
         Intent intent = new Intent(getContext(), PlayerActivity.class);
         intent.putExtra(Constants.KEY_POSITION, position);
         intent.putExtra(Constants.KEY_TITLE, musicFiles.getTitle());

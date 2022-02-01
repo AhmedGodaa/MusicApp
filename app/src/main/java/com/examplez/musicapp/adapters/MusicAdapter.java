@@ -1,4 +1,4 @@
-package com.examplez.musicapp;
+package com.examplez.musicapp.adapters;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -16,6 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.examplez.musicapp.models.Music;
+import com.examplez.musicapp.listeners.MusicListener;
+import com.examplez.musicapp.R;
 import com.examplez.musicapp.databinding.ItemContainerMusicBinding;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -24,10 +27,10 @@ import java.util.ArrayList;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHolder> {
     private Context context;
-    private ArrayList<MusicFiles> musicFiles;
+    private ArrayList<Music> musicFiles;
     private MusicListener musicListener;
 
-    public MusicAdapter(Context context, ArrayList<MusicFiles> musicFiles, MusicListener musicListener) {
+    public MusicAdapter(Context context, ArrayList<Music> musicFiles, MusicListener musicListener) {
         this.context = context;
         this.musicFiles = musicFiles;
         this.musicListener = musicListener;
@@ -67,7 +70,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
 
         }
 
-        void setMusicData(MusicFiles musicFiles, int position) {
+        void setMusicData(Music musicFiles, int position) {
             binding.musicTitle.setText(musicFiles.getTitle());
             binding.more.setOnClickListener(v -> {
                 Toast.makeText(context, "hello " + position, Toast.LENGTH_SHORT).show();

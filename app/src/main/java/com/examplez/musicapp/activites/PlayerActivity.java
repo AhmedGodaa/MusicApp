@@ -1,13 +1,11 @@
-package com.examplez.musicapp;
+package com.examplez.musicapp.activites;
 
-import static com.examplez.musicapp.MainActivity.musicFiles;
+import static com.examplez.musicapp.activites.MainActivity.musicFiles;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.palette.graphics.Palette;
 
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
 import android.animation.ObjectAnimator;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,24 +17,22 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
-import android.widget.SeekBar;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+
+import com.examplez.musicapp.R;
 import com.examplez.musicapp.databinding.ActivityPlayerBinding;
+import com.examplez.musicapp.models.Constants;
+import com.examplez.musicapp.models.Music;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
 
 import me.tankery.lib.circularseekbar.CircularSeekBar;
 
 public class PlayerActivity extends AppCompatActivity {
     private ActivityPlayerBinding binding;
-    private static ArrayList<MusicFiles> listSongs;
+    private static ArrayList<Music> listSongs;
     int position = -1;
     static Uri uri;
     static MediaPlayer mediaPlayer;

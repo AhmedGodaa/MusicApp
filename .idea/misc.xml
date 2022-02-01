@@ -4,11 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/drawable/background_image.xml" value="0.2225" />
+        <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/activity_album.xml" value="0.17552083333333332" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/activity_main.xml" value="0.25052083333333336" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/activity_player.xml" value="0.2857142857142857" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/activity_splash.xml" value="0.17552083333333332" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/fragment_album.xml" value="0.25052083333333336" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/fragment_songs.xml" value="0.23645833333333333" />
+        <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/item_container_album.xml" value="0.5" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/item_container_music.xml" value="0.3828571428571429" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/menu/popup.xml" value="0.25" />
         <entry key="..\:/Android/Projects/My_Projects/MusicApp/app/src/main/res/layout/activity_main.xml" value="0.25052083333333336" />

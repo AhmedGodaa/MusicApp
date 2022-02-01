@@ -12,22 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicApp">
         <activity
-            android:name=".SplashActivity"
+            android:name=".activites.AlbumActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activites.SplashActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activites.PlayerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activites.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-        </activity>
-        <activity
-            android:name=".PlayerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="false">
-
         </activity>
     </application>
 

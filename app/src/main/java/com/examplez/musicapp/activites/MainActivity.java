@@ -1,39 +1,35 @@
-package com.examplez.musicapp;
+package com.examplez.musicapp.activites;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
-import android.widget.ListView;
-import android.widget.Toast;
 
+import com.examplez.musicapp.R;
+import com.examplez.musicapp.adapters.TapAccessorAdapter;
 import com.examplez.musicapp.databinding.ActivityMainBinding;
+import com.examplez.musicapp.models.Music;
 import com.google.android.material.tabs.TabLayout;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
     private ActivityMainBinding binding;
     private TapAccessorAdapter tapAccessorAdapter;
     private ViewPager viewPager;
     private TabLayout tab;
     public static final int REQUEST_CODE = 1;
-    static ArrayList<MusicFiles> musicFiles;
+    public static ArrayList<Music> musicFiles;
 
 
 
@@ -45,13 +41,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         permission();
-        init();
 
 
-        binding.viewpager.setAdapter(tapAccessorAdapter);
-        tab.setupWithViewPager(viewPager);
+
 
     }
 
@@ -64,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
 
             musicFiles = getAllAudio(this);
+            init();
+
         }
 
 
@@ -74,14 +69,17 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // do whatever you want permission related;
+                musicFiles = getAllAudio(this);
+                init();
+
+
+
 
 
             } else {
                 ActivityCompat.requestPermissions(MainActivity.this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         REQUEST_CODE);
-                musicFiles = getAllAudio(this);
 
             }
         }
@@ -91,10 +89,12 @@ public class MainActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewpager);
         tab = findViewById(R.id.tabLayout);
         tapAccessorAdapter = new TapAccessorAdapter(getSupportFragmentManager());
+        binding.viewpager.setAdapter(tapAccessorAdapter);
+        tab.setupWithViewPager(viewPager);
     }
 
-    public static ArrayList<MusicFiles> getAllAudio(Context context) {
-        ArrayList<MusicFiles> tempAudioList = new ArrayList<>();
+    public static ArrayList<Music> getAllAudio(Context context) {
+        ArrayList<Music> tempAudioList = new ArrayList<>();
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         String[] projection = {
                 MediaStore.Audio.Media.ALBUM,
@@ -114,9 +114,8 @@ public class MainActivity extends AppCompatActivity {
                 String path = cursor.getString(3);
                 String artist = cursor.getString(4);
                 String id = cursor.getString(5);
-                MusicFiles musicFiles = new MusicFiles(path, title, artist, duration, album,id);
-//                take log.e for check
-                Log.e("Path : " + path, "Album: " + album);
+                Music musicFiles = new Music(path, title, artist, album, duration,id);
+
                 tempAudioList.add(musicFiles);
             }
             cursor.close();

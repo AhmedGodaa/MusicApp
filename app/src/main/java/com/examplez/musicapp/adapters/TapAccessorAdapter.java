@@ -1,4 +1,4 @@
-package com.examplez.musicapp;
+package com.examplez.musicapp.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.examplez.musicapp.fragments.AlbumFragment;
+import com.examplez.musicapp.fragments.SongsFragment;
 
 
 public class TapAccessorAdapter extends FragmentPagerAdapter {
