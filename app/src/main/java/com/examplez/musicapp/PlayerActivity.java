@@ -42,7 +42,7 @@ public class PlayerActivity extends AppCompatActivity {
     static MediaPlayer mediaPlayer;
     private Handler handler = new Handler();
     private Thread playThread, prevThread, nextThread;
-    private ObjectAnimator anim;
+    private ObjectAnimator anim ;
 
 
     @Override
@@ -58,7 +58,7 @@ public class PlayerActivity extends AppCompatActivity {
         setSongData();
 //        setAnimation(true);
 
-        anim = ObjectAnimator.ofFloat(binding.songImageContainer, "rotation", 0, 360);
+        anim = ObjectAnimator.ofFloat(binding.songImageContainer,"rotation",0,360);
         anim.setDuration(15000);
         anim.setRepeatCount(5);
         anim.setRepeatCount(Animation.INFINITE);
@@ -67,7 +67,11 @@ public class PlayerActivity extends AppCompatActivity {
         anim.start();
 
 
+
     }
+
+
+
 
 
     private void setSongData() {
