@@ -1,6 +1,6 @@
 package com.examplez.musicapp.fragments;
 
-import static com.examplez.musicapp.activites.MainActivity.musicFiles;
+import static com.examplez.musicapp.activities.MainActivity.musicFiles;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.examplez.musicapp.models.Music;
-import com.examplez.musicapp.activites.PlayerActivity;
+import com.examplez.musicapp.activities.PlayerActivity;
 
 import com.examplez.musicapp.adapters.MusicAdapter;
 import com.examplez.musicapp.databinding.FragmentSongsBinding;

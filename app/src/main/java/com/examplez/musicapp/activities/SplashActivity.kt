@@ -1,4 +1,4 @@
-package com.examplez.musicapp.activites
+package com.examplez.musicapp.activities
 
 import android.content.Intent
 import android.net.Uri

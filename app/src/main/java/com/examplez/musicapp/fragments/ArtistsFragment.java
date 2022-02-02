@@ -1,7 +1,5 @@
 package com.examplez.musicapp.fragments;
 
-
-
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,15 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.examplez.musicapp.databinding.FragmentAlbumBinding;
+import com.examplez.musicapp.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link AlbumFragment#newInstance} factory method to
+ * Use the {@link ArtistsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AlbumFragment extends Fragment {
-    private FragmentAlbumBinding binding;
+public class ArtistsFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,8 +26,7 @@ public class AlbumFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-
-    public AlbumFragment() {
+    public ArtistsFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +36,11 @@ public class AlbumFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AlbumFragment.
+     * @return A new instance of fragment ArtistsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AlbumFragment newInstance(String param1, String param2) {
-        AlbumFragment fragment = new AlbumFragment();
+    public static ArtistsFragment newInstance(String param1, String param2) {
+        ArtistsFragment fragment = new ArtistsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,14 +60,7 @@ public class AlbumFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentAlbumBinding.inflate(getLayoutInflater());
-        binding.recyclerView.setHasFixedSize(true);
-
-
-        return binding.getRoot();
-
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_artists, container, false);
     }
-
-
-
 }

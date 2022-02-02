@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".activites.PlayerActivity">
+    tools:context=".activities.PlayerActivity">
 
     <RelativeLayout
         android:id="@+id/layout_top_btn"
@@ -17,6 +17,7 @@
         <ImageView
             android:id="@+id/btnBack"
             android:layout_width="30dp"
+
             android:layout_height="30dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
@@ -53,40 +54,33 @@
 
 
     <RelativeLayout
-        android:id="@+id/card"
+        android:id="@+id/playerLayout"
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:layout_below="@id/layout_top_btn">
 
-        <me.tankery.lib.circularseekbar.CircularSeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="800dp"
-            android:layout_height="800dp"
-            android:layout_centerInParent="true" />
-
-        <!--        <com.makeramen.roundedimageview.RoundedImageView-->
-        <!--            android:id="@+id/songImageContainer"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            android:layout_alignParentStart="true"-->
-        <!--            android:layout_alignParentTop="true"-->
-        <!--            android:layout_alignParentEnd="true"-->
-        <!--            android:layout_marginStart="0dp"-->
-        <!--            android:layout_marginTop="0dp"-->
-        <!--            android:layout_marginEnd="0dp"-->
-        <!--            android:background="@color/purple_200"-->
-        <!--            android:scaleType="centerCrop"-->
-        <!--            android:transitionName="imageTransition" />-->
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/songImageContainer"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:interpolator="@android:anim/linear_interpolator"
+            android:layout_width="290dp"
+            android:layout_height="290dp"
             android:layout_centerInParent="true"
             android:background="@drawable/background_image"
+            android:backgroundTint="@color/white"
+            android:interpolator="@android:anim/linear_interpolator"
             android:scaleType="centerCrop"
             app:riv_oval="true" />
+
+        <me.tankery.lib.circularseekbar.CircularSeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="310dp"
+            android:layout_height="310dp"
+            android:layout_centerInParent="true"
+            app:cs_circle_color="#979797"
+            app:cs_circle_progress_color="@color/white"
+            app:cs_circle_stroke_width="5dp"
+            app:cs_disable_pointer="false" />
+
 
         <ImageView
             android:id="@+id/songImageContainerGradient"
@@ -98,58 +92,78 @@
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="0dp"
+
             android:alpha="0.5"
             android:scaleType="centerCrop"
             android:transitionName="imageTransition" />
 
-        <TextView
-            android:id="@+id/songName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="25dp"
-            android:maxLength="25"
-            android:maxLines="1"
-            android:textSize="20sp" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/seekBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_above="@id/relative_layout_for_bottom"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true">
 
         <TextView
             android:id="@+id/tvDurationPlayed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="10dp"
+            android:layout_below="@id/songImageContainer"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@id/definition"
             android:text="@string/_1_28"
             android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/definition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/songImageContainer"
+            android:layout_alignParentBottom="true"
+
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/division" />
 
         <TextView
             android:id="@+id/tvDurationTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
+            android:layout_below="@id/songImageContainer"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/definition"
             android:text="@string/_4_28"
             android:textColor="@color/black" />
 
-        <!--        <SeekBar-->
-        <!--            android:id="@+id/seekBar"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_centerInParent="true"-->
-        <!--            android:layout_marginStart="20dp"-->
-        <!--            android:layout_marginEnd="20dp" />-->
+    </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/songDetails"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@id/playerLayout">
 
+        <TextView
+            android:id="@+id/songName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/albumName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/songName"
+            android:layout_centerHorizontal="true"
+            android:maxLength="30"
+            android:maxLines="1"
+            android:text=""
+            android:textColor="@color/gray"
+            android:textSize="15sp" />
     </RelativeLayout>
 
 
@@ -157,9 +171,9 @@
         android:id="@+id/relative_layout_for_bottom"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_below="@id/songDetails"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentEnd="true">
 
         <ImageView
             android:id="@+id/btnShuffle"
@@ -179,33 +193,39 @@
             android:layout_marginEnd="36dp"
             android:src="@drawable/ic_repeat" />
 
-        <ImageView
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnPrevious"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_marginEnd="20dp"
             android:layout_toStartOf="@id/btnPlayPause"
-            android:src="@drawable/ic_skip_previous" />
+            android:src="@drawable/ic_skip_previous"
+            app:backgroundTint="#FFFFFF"
+            app:fabCustomSize="40dp"
+            app:tint="@null" />
 
-        <ImageView
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnNext"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="36dp"
-            android:layout_marginEnd="36dp"
-            android:layout_marginBottom="36dp"
             android:layout_toEndOf="@id/btnPlayPause"
-            android:src="@drawable/ic_skip_next" />
+            android:src="@drawable/ic_skip_next"
+            app:backgroundTint="#FFFFFF"
+            app:fabCustomSize="40dp"
+            app:tint="@null" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnPlayPause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_play" />
+            android:src="@drawable/ic_play"
+            app:backgroundTint="#FFFFFF"
+            app:tint="@null" />
 
     </RelativeLayout>
 

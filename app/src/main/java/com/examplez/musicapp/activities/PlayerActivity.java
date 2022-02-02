@@ -1,6 +1,6 @@
-package com.examplez.musicapp.activites;
+package com.examplez.musicapp.activities;
 
-import static com.examplez.musicapp.activites.MainActivity.musicFiles;
+import static com.examplez.musicapp.activities.MainActivity.musicFiles;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +21,7 @@ import android.view.animation.LinearInterpolator;
 
 import com.bumptech.glide.Glide;
 
+
 import com.examplez.musicapp.R;
 import com.examplez.musicapp.databinding.ActivityPlayerBinding;
 import com.examplez.musicapp.models.Constants;
@@ -38,7 +39,7 @@ public class PlayerActivity extends AppCompatActivity {
     static MediaPlayer mediaPlayer;
     private Handler handler = new Handler();
     private Thread playThread, prevThread, nextThread;
-    private ObjectAnimator anim ;
+    private ObjectAnimator anim;
 
 
     @Override
@@ -52,9 +53,10 @@ public class PlayerActivity extends AppCompatActivity {
         musicActions();
         setSeekBar();
         setSongData();
-//        setAnimation(true);
 
-        anim = ObjectAnimator.ofFloat(binding.songImageContainer,"rotation",0,360);
+
+
+        anim = ObjectAnimator.ofFloat(binding.songImageContainer, "rotation", 0, 360);
         anim.setDuration(15000);
         anim.setRepeatCount(5);
         anim.setRepeatCount(Animation.INFINITE);
@@ -63,11 +65,7 @@ public class PlayerActivity extends AppCompatActivity {
         anim.start();
 
 
-
     }
-
-
-
 
 
     private void setSongData() {
