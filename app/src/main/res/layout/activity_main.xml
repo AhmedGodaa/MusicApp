@@ -27,55 +27,62 @@
         android:layout_alignParentEnd="true"
         android:background="@color/colorAccent"
         android:layoutMode="opticalBounds"
+        android:overScrollMode="never"
         android:splitMotionEvents="true"
+        app:tabIndicatorFullWidth="true"
         app:tabIndicatorHeight="1dp"
         app:tabMaxWidth="100dp"
-        android:overScrollMode="never"
-        app:tabTextAppearance="@style/TabLayoutTestSize"
-        app:tabIndicatorFullWidth="true"
-        app:tabMode="scrollable" />
+        app:tabMode="scrollable"
+        app:tabTextAppearance="@style/TabLayoutTestSize" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_above="@+id/coordinatorLayout"
+        android:layout_above="@+id/bottom_navigation"
         android:layout_below="@+id/tabLayout"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu_bottom_nav" />
 
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottomAppBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:fabCradleMargin="3dp"
-            app:fabCradleRoundedCornerRadius="20dp"
-            app:fabCradleVerticalOffset="3dp">
-
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/bottomNav"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                app:menu="@menu/menu_bottom_nav"
-
-                >
-
-            </com.google.android.material.bottomnavigation.BottomNavigationView>
-        </com.google.android.material.bottomappbar.BottomAppBar>
+<!--    <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+<!--        android:id="@+id/coordinatorLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentStart="true"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_alignParentBottom="true">-->
 
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+<!--        <com.google.android.material.bottomappbar.BottomAppBar-->
+<!--            android:id="@+id/bottomAppBar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            app:fabCradleMargin="3dp">-->
+
+<!--            <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--                android:id="@+id/bottomNav"-->
+<!--                android:layout_width="match_parent"-->
+
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_gravity="center"-->
+<!--                app:menu="@menu/menu_bottom_nav" />-->
+
+
+<!--        </com.google.android.material.bottomappbar.BottomAppBar>-->
+
+
+<!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
 
 
 </RelativeLayout>

@@ -76,8 +76,7 @@
             android:layout_width="310dp"
             android:layout_height="310dp"
             android:layout_centerInParent="true"
-            app:cs_circle_color="#979797"
-            app:cs_circle_progress_color="@color/white"
+            app:cs_circle_color="#EDEDED"
             app:cs_circle_stroke_width="5dp"
             app:cs_disable_pointer="false" />
 

@@ -71,6 +71,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
 
         void setMusicData(Music musicFiles, int position) {
             binding.musicTitle.setText(musicFiles.getTitle());
+            binding.musicArtist.setText(musicFiles.getArtist());
             binding.more.setOnClickListener(v -> {
                 PopupMenu popupMenu = new PopupMenu(context, v);
                 popupMenu.getMenuInflater().inflate(R.menu.menu_popup, popupMenu.getMenu());

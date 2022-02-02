@@ -5,12 +5,12 @@
         android:icon="@drawable/ic_home"
         android:title="@string/home" />
     <item
-        android:id="@+id/menu_teachers"
-        android:icon="@drawable/ic_home"
+        android:id="@+id/menu_songs"
+        android:icon="@drawable/ic_music"
         android:title="@string/songs" />
     <item
-        android:id="@+id/menu_subjects"
-        android:icon="@drawable/ic_home"
+        android:id="@+id/menu_settings"
+        android:icon="@drawable/ic_settings"
         android:title="@string/settings" />
 
 
