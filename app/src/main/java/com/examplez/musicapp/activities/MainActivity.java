@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -12,10 +13,12 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+
 import com.examplez.musicapp.R;
 import com.examplez.musicapp.adapters.TapAccessorAdapter;
 import com.examplez.musicapp.databinding.ActivityMainBinding;
 import com.examplez.musicapp.models.Album;
+import com.examplez.musicapp.models.Artist;
 import com.examplez.musicapp.models.Music;
 import com.google.android.material.tabs.TabLayout;
 
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE = 1;
     public static ArrayList<Music> musicFiles;
     public static ArrayList<Album> albumFiles;
+    public static ArrayList<Artist> artistFiles;
 
 
     @Override
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
             musicFiles = getAllAudio(this);
             albumFiles = getAllAlbums(this);
+            artistFiles = getAllArtists(this);
             init();
 
         }
@@ -145,6 +150,34 @@ public class MainActivity extends AppCompatActivity {
 
         }
         return tempAlbumList;
+    }
+
+    public static ArrayList<Artist> getAllArtists(Context context) {
+        ArrayList<Artist> tempArtistList = new ArrayList<>();
+
+        String[] projection = {
+                MediaStore.Audio.Artists._ID,
+                MediaStore.Audio.Artists.ARTIST,
+                MediaStore.Audio.Artists.NUMBER_OF_TRACKS,
+                MediaStore.Audio.Artists.NUMBER_OF_ALBUMS
+        };
+        Uri uri = MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI;
+
+        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String id = cursor.getString(0);
+                String artist = cursor.getString(1);
+                String numberOfTracks = cursor.getString(2);
+                String numberOfAlbums = cursor.getString(3);
+                Artist artistFiles = new Artist(id, artist, numberOfTracks, numberOfAlbums);
+                tempArtistList.add(artistFiles);
+
+            }
+            cursor.close();
+
+        }
+        return tempArtistList;
     }
 
 
