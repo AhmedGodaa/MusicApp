@@ -24,7 +24,7 @@ import com.examplez.musicapp.databinding.FragmentSongsBinding;
 import com.examplez.musicapp.databinding.ItemContainerMusicBinding;
 
 import com.examplez.musicapp.listeners.MusicListener;
-import com.examplez.musicapp.models.Constants;;
+import com.examplez.musicapp.models.Constants;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,7 +43,7 @@ public class SongsFragment extends Fragment implements MusicListener {
     private String mParam2;
     private FragmentSongsBinding binding;
     private MusicAdapter musicAdapter;
-    private int position ;
+    private int position;
 
     public SongsFragment() {
         // Required empty public constructor
@@ -80,8 +80,14 @@ public class SongsFragment extends Fragment implements MusicListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentSongsBinding.inflate(getLayoutInflater());
-        binding.recyclerView.setHasFixedSize(true);
+        setRecyclerView();
 
+
+        return binding.getRoot();
+    }
+
+    private void setRecyclerView() {
+        binding.recyclerView.setHasFixedSize(true);
 
         if (!(musicFiles.size() < 1)) {
             musicAdapter = new MusicAdapter(getContext(), musicFiles, this);
@@ -90,13 +96,12 @@ public class SongsFragment extends Fragment implements MusicListener {
 
         }
 
-
-        return binding.getRoot();
     }
 
 
     @Override
-    public void onMusicClicked(Music musicFiles) {
+    public void onMusicClicked(Music musicFiles, int i) {
+        this.position = i;
         Intent intent = new Intent(getContext(), PlayerActivity.class);
         intent.putExtra(Constants.KEY_POSITION, position);
         intent.putExtra(Constants.KEY_TITLE, musicFiles.getTitle());
@@ -107,12 +112,6 @@ public class SongsFragment extends Fragment implements MusicListener {
         setAnimation(intent);
     }
 
-    @Override
-    public void musicListener(int i) {
-        this.position = i;
-
-
-    }
 
     private void setAnimation(Intent intent) {
         ItemContainerMusicBinding itemContainerMusicBinding = ItemContainerMusicBinding.inflate(getLayoutInflater());
@@ -123,8 +122,6 @@ public class SongsFragment extends Fragment implements MusicListener {
 
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), pairs);
         startActivity(intent, options.toBundle());
-
-
 
 
     }

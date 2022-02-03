@@ -1,23 +1,30 @@
 package com.examplez.musicapp.fragments;
 
 
+import static com.examplez.musicapp.activities.MainActivity.musicFiles;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.examplez.musicapp.adapters.AlbumsAdapter;
+import com.examplez.musicapp.adapters.MusicAdapter;
 import com.examplez.musicapp.databinding.FragmentAlbumBinding;
+import com.examplez.musicapp.listeners.MusicListener;
+import com.examplez.musicapp.models.Music;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link AlbumFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AlbumFragment extends Fragment {
+public class AlbumFragment extends Fragment implements MusicListener {
     private FragmentAlbumBinding binding;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -28,6 +35,7 @@ public class AlbumFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private AlbumsAdapter albumsAdapter;
 
 
     public AlbumFragment() {
@@ -66,12 +74,25 @@ public class AlbumFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentAlbumBinding.inflate(getLayoutInflater());
         binding.recyclerView.setHasFixedSize(true);
+        setRecyclerView();
 
 
         return binding.getRoot();
 
     }
 
+    private void setRecyclerView() {
+        if (!(musicFiles.size()  < 1)){
+            albumsAdapter = new AlbumsAdapter(getContext(),musicFiles,this);
+        }
 
 
+
+    }
+
+
+    @Override
+    public void onMusicClicked(Music musicFiles, int position) {
+
+    }
 }

@@ -88,8 +88,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
 
             });
             binding.getRoot().setOnClickListener(v -> {
-                        musicListener.onMusicClicked(musicFiles);
-                        musicListener.musicListener(position);
+                        musicListener.onMusicClicked(musicFiles, position);
+
 
                     }
 
