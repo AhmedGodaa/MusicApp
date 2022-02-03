@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-
 import com.examplez.musicapp.fragments.AlbumFragment;
 import com.examplez.musicapp.fragments.ArtistsFragment;
 import com.examplez.musicapp.fragments.GenresFragment;

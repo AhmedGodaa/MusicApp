@@ -6,14 +6,11 @@ import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
-
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.examplez.musicapp.models.Music;
 import com.examplez.musicapp.listeners.MusicListener;
@@ -72,21 +69,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
         void setMusicData(Music musicFiles, int position) {
             binding.musicTitle.setText(musicFiles.getTitle());
             binding.musicArtist.setText(musicFiles.getArtist());
-            binding.more.setOnClickListener(v -> {
-                PopupMenu popupMenu = new PopupMenu(context, v);
-                popupMenu.getMenuInflater().inflate(R.menu.menu_popup, popupMenu.getMenu());
-                popupMenu.show();
-                popupMenu.setOnMenuItemClickListener(item -> {
-                    switch (item.getItemId()) {
-                        case R.id.delete:
-                            delete(position, v);
-                            break;
-
-                    }
-                    return true;
-                });
-
-            });
+            setImage(musicFiles, binding);
+            binding.more.setOnClickListener(v -> moreClicked(v, position));
             binding.getRoot().setOnClickListener(v -> {
                         musicListener.onMusicClicked(musicFiles, position);
 
@@ -95,18 +79,42 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
 
             );
 
-            byte[] image = getAlbumArt(musicFiles.getPath());
-            if (image == null) {
-                Glide.with(context).load(R.drawable.ic_launcher_background).centerCrop().into(binding.audioImage);
-            } else {
-                Glide.with(context).load(image).centerCrop().into(binding.audioImage);
-            }
-
 
         }
 
 
     }
+
+    private void setImage(Music musicFiles, ItemContainerMusicBinding binding) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(musicFiles.getPath());
+        byte[] art = retriever.getEmbeddedPicture();
+        retriever.release();
+        if (art == null) {
+            Glide.with(context).load(R.drawable.ic_launcher_background).centerCrop().into(binding.audioImage);
+        } else {
+            Glide.with(context).load(art).centerCrop().into(binding.audioImage);
+        }
+    }
+
+    private void moreClicked(View v, int position) {
+
+        PopupMenu popupMenu = new PopupMenu(context, v);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_popup, popupMenu.getMenu());
+        popupMenu.show();
+        popupMenu.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.delete:
+                    delete(position, v);
+                    break;
+
+            }
+            return true;
+        });
+
+
+    }
+
 
     private void delete(int position, View v) {
         Uri fileUri = ContentUris.withAppendedId(MediaStore.Audio.Media.
@@ -131,11 +139,4 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
     }
 
 
-    private byte[] getAlbumArt(String uri) {
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        retriever.setDataSource(uri);
-        byte[] art = retriever.getEmbeddedPicture();
-        retriever.release();
-        return art;
-    }
 }

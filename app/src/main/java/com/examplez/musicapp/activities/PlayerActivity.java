@@ -5,7 +5,6 @@ import static com.examplez.musicapp.activities.MainActivity.musicFiles;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.palette.graphics.Palette;
-
 import android.animation.ObjectAnimator;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,10 +17,7 @@ import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
-
 import com.bumptech.glide.Glide;
-
-
 import com.examplez.musicapp.R;
 import com.examplez.musicapp.databinding.ActivityPlayerBinding;
 import com.examplez.musicapp.models.Constants;

@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -13,10 +12,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-
 import com.examplez.musicapp.R;
 import com.examplez.musicapp.adapters.TapAccessorAdapter;
 import com.examplez.musicapp.databinding.ActivityMainBinding;
+import com.examplez.musicapp.models.Album;
 import com.examplez.musicapp.models.Music;
 import com.google.android.material.tabs.TabLayout;
 
@@ -30,10 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tab;
     public static final int REQUEST_CODE = 1;
     public static ArrayList<Music> musicFiles;
-
-
-
-
+    public static ArrayList<Album> albumFiles;
 
 
     @Override
@@ -42,8 +38,6 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         permission();
-
-
 
 
     }
@@ -57,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
 
             musicFiles = getAllAudio(this);
+            albumFiles = getAllAlbums(this);
             init();
 
         }
@@ -70,10 +65,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 musicFiles = getAllAudio(this);
+                albumFiles = getAllAlbums(this);
                 init();
-
-
-
 
 
             } else {
@@ -114,13 +107,44 @@ public class MainActivity extends AppCompatActivity {
                 String path = cursor.getString(3);
                 String artist = cursor.getString(4);
                 String id = cursor.getString(5);
-                Music musicFiles = new Music(path, title, artist, album, duration,id);
+                Music musicFiles = new Music(path, title, artist, album, duration, id);
+
 
                 tempAudioList.add(musicFiles);
             }
             cursor.close();
         }
         return tempAudioList;
+    }
+
+    public static ArrayList<Album> getAllAlbums(Context context) {
+        ArrayList<Album> tempAlbumList = new ArrayList<>();
+
+        String[] projection = {
+                MediaStore.Audio.Albums._ID,
+                MediaStore.Audio.Albums.ALBUM,
+                MediaStore.Audio.Albums.ARTIST,
+                MediaStore.Audio.Albums.ALBUM_ART,
+                MediaStore.Audio.Albums.NUMBER_OF_SONGS
+        };
+        Uri uri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
+
+        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String id = cursor.getString(0);
+                String album = cursor.getString(1);
+                String artist = cursor.getString(2);
+                String albumImage = cursor.getString(3);
+                String numberOfSongs = cursor.getString(4);
+                Album albumFiles = new Album(id, album, artist, albumImage, numberOfSongs);
+                tempAlbumList.add(albumFiles);
+
+            }
+            cursor.close();
+
+        }
+        return tempAlbumList;
     }
 
 

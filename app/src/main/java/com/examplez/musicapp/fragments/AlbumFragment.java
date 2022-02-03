@@ -1,31 +1,29 @@
 package com.examplez.musicapp.fragments;
 
 
-import static com.examplez.musicapp.activities.MainActivity.musicFiles;
+import static com.examplez.musicapp.activities.MainActivity.albumFiles;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import androidx.recyclerview.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Toast;
 import com.examplez.musicapp.adapters.AlbumsAdapter;
-import com.examplez.musicapp.adapters.MusicAdapter;
 import com.examplez.musicapp.databinding.FragmentAlbumBinding;
-import com.examplez.musicapp.listeners.MusicListener;
-import com.examplez.musicapp.models.Music;
+import com.examplez.musicapp.listeners.AlbumListener;
+import com.examplez.musicapp.models.Album;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link AlbumFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AlbumFragment extends Fragment implements MusicListener {
+public class AlbumFragment extends Fragment implements AlbumListener {
     private FragmentAlbumBinding binding;
+    private ArrayList albumSongs;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -74,7 +72,10 @@ public class AlbumFragment extends Fragment implements MusicListener {
                              Bundle savedInstanceState) {
         binding = FragmentAlbumBinding.inflate(getLayoutInflater());
         binding.recyclerView.setHasFixedSize(true);
+        albumSongs = new ArrayList();
         setRecyclerView();
+
+        Toast.makeText(getContext(), "" + albumSongs.size(), Toast.LENGTH_SHORT).show();
 
 
         return binding.getRoot();
@@ -82,17 +83,18 @@ public class AlbumFragment extends Fragment implements MusicListener {
     }
 
     private void setRecyclerView() {
-        if (!(musicFiles.size()  < 1)){
-            albumsAdapter = new AlbumsAdapter(getContext(),musicFiles,this);
+        if (!(albumFiles.size() < 1)) {
+            albumsAdapter = new AlbumsAdapter(getContext(), albumFiles, this);
+            binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+            binding.recyclerView.setAdapter(albumsAdapter);
         }
-
 
 
     }
 
 
     @Override
-    public void onMusicClicked(Music musicFiles, int position) {
+    public void onAlbumClicked(Album album, int posotion) {
 
     }
 }
