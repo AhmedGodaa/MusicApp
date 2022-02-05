@@ -24,6 +24,8 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
+import meow.bottomnavigation.MeowBottomNavigation;
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
@@ -42,7 +44,15 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         permission();
+        setShit();
 
+
+    }
+
+    private void setShit() {
+        binding.bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_home));
+        binding.bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_music));
+        binding.bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.ic_settings));
 
     }
 
