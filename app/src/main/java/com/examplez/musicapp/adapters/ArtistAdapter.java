@@ -1,6 +1,7 @@
 package com.examplez.musicapp.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +44,6 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
 
     @Override
     public void onBindViewHolder(@NonNull ArtistViewHolder holder, int position) {
-        Artist model = data.get(position);
-
         holder.setArtistData(data.get(position), position);
     }
 
@@ -65,6 +64,9 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistView
         }
 
         public void setArtistData(Artist model, int position) {
+            binding.artistName.setText(model.getArtist());
+//            binding.numberOfAlbums.setText(model.getNumberOfAlbums());
+            binding.numberOfTracks.setText(model.getNumberOfTracks());
 
         }
     }

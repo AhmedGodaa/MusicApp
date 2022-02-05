@@ -66,7 +66,7 @@ public class PlayerActivity extends AppCompatActivity {
 
     private void setSongData() {
         binding.songName.setText(getIntent().getStringExtra(Constants.KEY_TITLE));
-        binding.albumName.setText(getIntent().getStringExtra(Constants.KEY_ALBUM));
+
         binding.tvDurationTotal.setText(formattedTime(mediaPlayer.getDuration() / 1000));
         metaData(uri);
     }

@@ -5,12 +5,15 @@ import android.content.Context;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.examplez.musicapp.models.Music;
 import com.examplez.musicapp.listeners.MusicListener;
@@ -70,7 +73,13 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
             binding.musicTitle.setText(musicFiles.getTitle());
             binding.musicArtist.setText(musicFiles.getArtist());
             setImage(musicFiles, binding);
-            binding.more.setOnClickListener(v -> moreClicked(v, position));
+            binding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    moreClicked(view, position);
+                    return true;
+                }
+            });
             binding.getRoot().setOnClickListener(v -> {
                         musicListener.onMusicClicked(musicFiles, position);
 
@@ -99,7 +108,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
 
     private void moreClicked(View v, int position) {
 
-        PopupMenu popupMenu = new PopupMenu(context, v);
+        PopupMenu popupMenu = new PopupMenu(context, v, Gravity.END);
         popupMenu.getMenuInflater().inflate(R.menu.menu_popup, popupMenu.getMenu());
         popupMenu.show();
         popupMenu.setOnMenuItemClickListener(item -> {

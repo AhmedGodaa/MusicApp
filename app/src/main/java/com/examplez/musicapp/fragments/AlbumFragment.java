@@ -23,7 +23,6 @@ import java.util.ArrayList;
  */
 public class AlbumFragment extends Fragment implements AlbumListener {
     private FragmentAlbumBinding binding;
-    private ArrayList albumSongs;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -71,11 +70,7 @@ public class AlbumFragment extends Fragment implements AlbumListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentAlbumBinding.inflate(getLayoutInflater());
-        binding.recyclerView.setHasFixedSize(true);
-        albumSongs = new ArrayList();
         setRecyclerView();
-
-        Toast.makeText(getContext(), "" + albumSongs.size(), Toast.LENGTH_SHORT).show();
 
 
         return binding.getRoot();
@@ -83,6 +78,7 @@ public class AlbumFragment extends Fragment implements AlbumListener {
     }
 
     private void setRecyclerView() {
+        binding.recyclerView.setHasFixedSize(true);
         if (!(albumFiles.size() < 1)) {
             albumsAdapter = new AlbumsAdapter(getContext(), albumFiles, this);
             binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
