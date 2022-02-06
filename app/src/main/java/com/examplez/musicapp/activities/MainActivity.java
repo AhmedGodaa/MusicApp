@@ -1,6 +1,7 @@
 package com.examplez.musicapp.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -44,17 +45,20 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         permission();
-        setShit();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
+                binding.drawerLayout, binding.toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close);
+
+        binding.drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+//        binding.navigationView.setNavigationItemSelectedListener(this);
+
 
 
     }
 
-    private void setShit() {
-        binding.bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_home));
-        binding.bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_music));
-        binding.bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.ic_settings));
 
-    }
 
     private void permission() {
         if (ContextCompat.checkSelfPermission(getApplicationContext(),

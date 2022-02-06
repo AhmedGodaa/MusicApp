@@ -10,4 +10,7 @@
     <string name="songs">Songs</string>
     <string name="settings">Settings</string>
     <string name="division">|</string>
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
+    <string name="search">Search</string>
 </resources>

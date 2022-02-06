@@ -1,9 +1,10 @@
 package com.examplez.musicapp.activities
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.view.animation.AnimationUtils
-import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import com.examplez.musicapp.R
 import com.examplez.musicapp.databinding.ActivitySplashBinding
@@ -18,12 +19,25 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         playVideo()
-        val logoAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_logo)
-        binding.logo.animation = logoAnimation
+        setAnimation()
+
+        binding.imageView.setOnClickListener(View.OnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+
+        })
 
 
     }
+
+    private fun setAnimation() {
+        val logoAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_logo)
+        binding.logo.animation = logoAnimation
+    }
+
     override fun onResume() {
         super.onResume()
         playVideo()
@@ -35,6 +49,7 @@ class SplashActivity : AppCompatActivity() {
         binding.videoView.setVideoURI(uri)
         binding.videoView.start()
         binding.videoView.setOnCompletionListener { binding.videoView.start() }
+
     }
 
 

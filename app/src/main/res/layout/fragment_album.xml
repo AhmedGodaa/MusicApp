@@ -9,6 +9,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:clipToPadding="false"
+        android:background="@color/primaryDark"
         android:orientation="vertical"
         android:overScrollMode="never"
         android:visibility="visible"
