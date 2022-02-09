@@ -1,12 +1,5 @@
 package com.examplez.musicapp.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -14,10 +7,23 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.SearchView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 
 import com.examplez.musicapp.R;
 import com.examplez.musicapp.adapters.TapAccessorAdapter;
 import com.examplez.musicapp.databinding.ActivityMainBinding;
+import com.examplez.musicapp.fragments.SongsFragment;
 import com.examplez.musicapp.models.Album;
 import com.examplez.musicapp.models.Artist;
 import com.examplez.musicapp.models.Music;
@@ -25,9 +31,8 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
-import meow.bottomnavigation.MeowBottomNavigation;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private ActivityMainBinding binding;
     private TapAccessorAdapter tapAccessorAdapter;
@@ -45,6 +50,16 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         permission();
+
+
+        navigationView();
+
+
+    }
+
+    private void navigationView() {
+
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this,
                 binding.drawerLayout, binding.toolbar,
                 R.string.navigation_drawer_open,
@@ -52,12 +67,16 @@ public class MainActivity extends AppCompatActivity {
 
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-//        binding.navigationView.setNavigationItemSelectedListener(this);
-
-
+//                binding.navigationView.setNavigationItemSelectedListener(this);
+        View headerView = binding.navigationView.getHeaderView(0);
+        TextView headerAlbums = (TextView) headerView.findViewById(R.id.headerAlbums);
+        TextView headerSongs = (TextView) headerView.findViewById(R.id.headerSongs);
+        TextView headerArtist = (TextView) headerView.findViewById(R.id.headerArtist);
+        headerSongs.setText("" + musicFiles.size());
+        headerAlbums.setText("" + albumFiles.size());
+        headerArtist.setText("" + artistFiles.size());
 
     }
-
 
 
     private void permission() {
@@ -194,5 +213,31 @@ public class MainActivity extends AppCompatActivity {
         return tempArtistList;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        MenuItem menuItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setOnQueryTextListener(this);
 
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        String userInput = s.toLowerCase();
+        ArrayList<Music> mFiles = new ArrayList<>();
+        for (Music song : musicFiles) {
+            if (song.getTitle().toLowerCase().contains(userInput)) {
+                mFiles.add(song);
+            }
+        }
+        SongsFragment.musicAdapter.updateList(mFiles);
+        return true;
+    }
 }

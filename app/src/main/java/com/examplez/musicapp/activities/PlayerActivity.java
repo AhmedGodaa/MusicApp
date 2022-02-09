@@ -2,9 +2,6 @@ package com.examplez.musicapp.activities;
 
 import static com.examplez.musicapp.activities.MainActivity.musicFiles;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.palette.graphics.Palette;
 import android.animation.ObjectAnimator;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +14,11 @@ import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.palette.graphics.Palette;
+
 import com.bumptech.glide.Glide;
 import com.examplez.musicapp.R;
 import com.examplez.musicapp.databinding.ActivityPlayerBinding;
@@ -51,7 +53,6 @@ public class PlayerActivity extends AppCompatActivity {
         setSongData();
 
 
-
         anim = ObjectAnimator.ofFloat(binding.songImageContainer, "rotation", 0, 360);
         anim.setDuration(15000);
         anim.setRepeatCount(5);
@@ -59,6 +60,9 @@ public class PlayerActivity extends AppCompatActivity {
         anim.setInterpolator(new LinearInterpolator());
         anim.setRepeatMode(ObjectAnimator.RESTART);
         anim.start();
+        binding.btnBack.setOnClickListener(v -> {
+            onBackPressed();
+        });
 
 
     }
@@ -311,7 +315,7 @@ public class PlayerActivity extends AppCompatActivity {
             binding.songName.setText(listSongs.get(position).getTitle());
             binding.seekBar.setMax(mediaPlayer.getDuration() / 1000);
 
-//
+
             PlayerActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -374,17 +378,19 @@ public class PlayerActivity extends AppCompatActivity {
 
                         GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
                                 new int[]{swatch.getRgb(), 0x00000000});
-                        binding.background.setBackground(gradientDrawable);
+                        binding.viewBackground.setBackground(gradientDrawable);
 
 
                     } else {
                         GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
                                 new int[]{0xff000000, 0xff000000});
-                        binding.background.setBackground(gradientDrawable);
+                        binding.viewBackground.setBackground(gradientDrawable);
 
                     }
                 }
             });
+
+
         } else {
             Glide.with(this)
                     .asBitmap()

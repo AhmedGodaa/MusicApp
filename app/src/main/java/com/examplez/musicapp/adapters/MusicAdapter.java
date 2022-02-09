@@ -82,8 +82,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
             });
             binding.getRoot().setOnClickListener(v -> {
                         musicListener.onMusicClicked(musicFiles, position);
-
-
                     }
 
             );
@@ -147,5 +145,10 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
 
     }
 
+    public void updateList(ArrayList<Music> musicArrayList) {
+        musicFiles = new ArrayList<>();
+        musicFiles.addAll(musicArrayList);
+        notifyDataSetChanged();
+    }
 
 }

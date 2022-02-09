@@ -5,26 +5,22 @@ import static com.examplez.musicapp.activities.MainActivity.musicFiles;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.examplez.musicapp.models.Music;
-import com.examplez.musicapp.activities.PlayerActivity;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.examplez.musicapp.activities.PlayerActivity;
 import com.examplez.musicapp.adapters.MusicAdapter;
 import com.examplez.musicapp.databinding.FragmentSongsBinding;
 import com.examplez.musicapp.databinding.ItemContainerMusicBinding;
-
 import com.examplez.musicapp.listeners.MusicListener;
 import com.examplez.musicapp.models.Constants;
+import com.examplez.musicapp.models.Music;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,7 +38,7 @@ public class SongsFragment extends Fragment implements MusicListener {
     private String mParam1;
     private String mParam2;
     private FragmentSongsBinding binding;
-    private MusicAdapter musicAdapter;
+    public static MusicAdapter musicAdapter;
     private int position;
 
     public SongsFragment() {

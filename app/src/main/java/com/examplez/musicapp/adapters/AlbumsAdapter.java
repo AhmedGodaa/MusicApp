@@ -60,6 +60,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
             String numberOfSongs = " ● " + album.getNumberOfSongs() + " Songs ";
             binding.albumSize.setText(numberOfSongs);
             binding.albumImage.setImageDrawable(Drawable.createFromPath(album.getAlbumImage()));
+
             binding.getRoot().setOnClickListener(view -> {
                 listener.onAlbumClicked(album, position);
 
