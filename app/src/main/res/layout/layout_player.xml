@@ -2,10 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/background"
+    android:id="@+id/layoutPlayer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryDark"
+    android:layout_marginTop="100dp"
+    android:orientation="vertical"
     tools:context=".activities.PlayerActivity">
 
     <View
@@ -19,37 +20,11 @@
         android:background="@drawable/background_curved"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
-        android:id="@+id/layout_top_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_marginTop="7dp">
-
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btnBack"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:contentDescription="@string/app_name"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_back"
-            app:backgroundTint="#FFFFFF"
-            app:fabCustomSize="30dp"
-            app:tint="@null" />
-
-
-    </RelativeLayout>
-
 
     <RelativeLayout
         android:id="@+id/playerLayout"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_below="@id/layout_top_btn">
+        android:layout_height="350dp">
 
 
         <com.makeramen.roundedimageview.RoundedImageView
@@ -70,8 +45,8 @@
             android:layout_centerInParent="true"
             app:cs_circle_color="#EDEDED"
             app:cs_circle_progress_color="@color/purple_500"
-            app:cs_circle_stroke_width="5dp"
 
+            app:cs_circle_stroke_width="5dp"
             app:cs_disable_pointer="false"
             app:cs_pointer_color="@color/purple_500" />
 
@@ -176,10 +151,10 @@
             android:id="@+id/btnPrevious"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:contentDescription="@string/app_name"
             android:layout_centerVertical="true"
             android:layout_marginEnd="20dp"
             android:layout_toStartOf="@id/btnPlayPause"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/ic_skip_previous"
             app:backgroundTint="#FFFFFF"
             app:fabCustomSize="40dp"
@@ -188,11 +163,11 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnNext"
             android:layout_width="40dp"
-            android:contentDescription="@string/app_name"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="20dp"
             android:layout_toEndOf="@id/btnPlayPause"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/ic_skip_next"
             app:backgroundTint="#FFFFFF"
             app:fabCustomSize="40dp"
@@ -201,9 +176,9 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnPlayPause"
             android:layout_width="wrap_content"
-            android:contentDescription="@string/app_name"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/ic_play"
             app:backgroundTint="#FFFFFF"
             app:tint="@null" />

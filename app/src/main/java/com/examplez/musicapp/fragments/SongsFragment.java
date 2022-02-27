@@ -14,13 +14,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.examplez.musicapp.activities.PlayerActivity;
+import com.examplez.musicapp.R;
 import com.examplez.musicapp.adapters.MusicAdapter;
 import com.examplez.musicapp.databinding.FragmentSongsBinding;
 import com.examplez.musicapp.databinding.ItemContainerMusicBinding;
+import com.examplez.musicapp.databinding.LayoutPlayerBinding;
 import com.examplez.musicapp.listeners.MusicListener;
-import com.examplez.musicapp.models.Constants;
 import com.examplez.musicapp.models.Music;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,6 +41,8 @@ public class SongsFragment extends Fragment implements MusicListener {
     private FragmentSongsBinding binding;
     public static MusicAdapter musicAdapter;
     private int position;
+    private LayoutPlayerBinding playerBinding;
+    private BottomSheetDialog bottomSheetDialog;
 
     public SongsFragment() {
         // Required empty public constructor
@@ -77,6 +80,7 @@ public class SongsFragment extends Fragment implements MusicListener {
                              Bundle savedInstanceState) {
         binding = FragmentSongsBinding.inflate(getLayoutInflater());
         setRecyclerView();
+        addPlayerDialog();
 
 
         return binding.getRoot();
@@ -84,7 +88,6 @@ public class SongsFragment extends Fragment implements MusicListener {
 
     private void setRecyclerView() {
         binding.recyclerView.setHasFixedSize(true);
-
         if (!(musicFiles.size() < 1)) {
             musicAdapter = new MusicAdapter(getContext(), musicFiles, this);
             binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
@@ -94,18 +97,28 @@ public class SongsFragment extends Fragment implements MusicListener {
 
     }
 
+    private void addPlayerDialog() {
+        playerBinding = LayoutPlayerBinding.inflate(getLayoutInflater());
+        bottomSheetDialog = new BottomSheetDialog(getContext(), R.style.BottomSheetDialogTheme);
+
+
+    }
+
 
     @Override
     public void onMusicClicked(Music musicFiles, int i) {
-        this.position = i;
-        Intent intent = new Intent(getContext(), PlayerActivity.class);
-        intent.putExtra(Constants.KEY_POSITION, position);
-        intent.putExtra(Constants.KEY_TITLE, musicFiles.getTitle());
-        intent.putExtra(Constants.KEY_ALBUM, musicFiles.getAlbum());
-        intent.putExtra(Constants.KEY_ARTIST, musicFiles.getArtist());
-        intent.putExtra(Constants.KEY_PATH, musicFiles.getPath());
-        intent.putExtra(Constants.KEY_DURATION, musicFiles.getDuration());
-        setAnimation(intent);
+        bottomSheetDialog.setContentView(playerBinding.getRoot());
+        bottomSheetDialog.show();
+
+//        this.position = i;
+//        Intent intent = new Intent(getContext(), PlayerActivity.class);
+//        intent.putExtra(Constants.KEY_POSITION, position);
+//        intent.putExtra(Constants.KEY_TITLE, musicFiles.getTitle());
+//        intent.putExtra(Constants.KEY_ALBUM, musicFiles.getAlbum());
+//        intent.putExtra(Constants.KEY_ARTIST, musicFiles.getArtist());
+//        intent.putExtra(Constants.KEY_PATH, musicFiles.getPath());
+//        intent.putExtra(Constants.KEY_DURATION, musicFiles.getDuration());
+//        setAnimation(intent);
     }
 
 

@@ -49,6 +49,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
     @Override
     public void onBindViewHolder(@NonNull MusicViewHolder holder, int position) {
         holder.setMusicData(musicFiles.get(position), position);
+        holder.binding.itemAudio.setOnClickListener(v -> musicListener.onMusicClicked(musicFiles.get(position), position));
 
 
     }
@@ -73,22 +74,12 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
             binding.musicTitle.setText(musicFiles.getTitle());
             binding.musicArtist.setText(musicFiles.getArtist());
             setImage(musicFiles, binding);
-            binding.getRoot().setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    moreClicked(view, position);
-                    return true;
-                }
+            binding.getRoot().setOnLongClickListener(v -> {
+                moreClicked(v, position);
+                return true;
             });
-            binding.getRoot().setOnClickListener(v -> {
-                        musicListener.onMusicClicked(musicFiles, position);
-                    }
-
-            );
-
 
         }
-
 
     }
 

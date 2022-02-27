@@ -4,8 +4,6 @@
         <!-- Primary brand color. -->
         <item name="windowActionBar">false</item>
         <item name="android:windowFullscreen">true</item>
-
-
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -17,18 +15,20 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:windowActivityTransitions">true</item>
-<!--        <item name="android:windowEnterTransition">@android:transition/explode</item>-->
-
-
-<!--        <item name="android:windowExitTransition">@android:transition/explode</item>-->
-
-
-
     </style>
+
     <style name="TabLayoutTestSize" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">14sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="textAllCaps">false</item>
 
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+
+    <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
     </style>
 </resources>
