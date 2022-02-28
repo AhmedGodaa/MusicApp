@@ -35,9 +35,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private ActivityMainBinding binding;
-    private TapAccessorAdapter tapAccessorAdapter;
-    private ViewPager viewPager;
-    private TabLayout tab;
+    TapAccessorAdapter tapAccessorAdapter;
+    ViewPager viewPager;
+    TabLayout tab;
     public static final int REQUEST_CODE = 1;
     public static ArrayList<Music> musicFiles;
     public static ArrayList<Album> albumFiles;
@@ -69,12 +69,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         toggle.syncState();
 //                binding.navigationView.setNavigationItemSelectedListener(this);
         View headerView = binding.navigationView.getHeaderView(0);
-        TextView headerAlbums = (TextView) headerView.findViewById(R.id.headerAlbums);
-        TextView headerSongs = (TextView) headerView.findViewById(R.id.headerSongs);
-        TextView headerArtist = (TextView) headerView.findViewById(R.id.headerArtist);
-        headerSongs.setText("" + musicFiles.size());
-        headerAlbums.setText("" + albumFiles.size());
-        headerArtist.setText("" + artistFiles.size());
+        TextView headerAlbums = headerView.findViewById(R.id.headerAlbums);
+        TextView headerSongs = headerView.findViewById(R.id.headerSongs);
+        TextView headerArtist = headerView.findViewById(R.id.headerArtist);
+
+        headerSongs.setText(String.valueOf(musicFiles.size()));
+        headerAlbums.setText(String.valueOf(albumFiles.size()));
+        headerArtist.setText(String.valueOf(artistFiles.size()));
 
     }
 
@@ -237,7 +238,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 mFiles.add(song);
             }
         }
-        SongsFragment.musicAdapter.updateList(mFiles);
+        SongsFragment songsFragment = new SongsFragment();
+        songsFragment.musicAdapter.updateList(mFiles);
+
         return true;
     }
 }

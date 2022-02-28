@@ -8,6 +8,15 @@
     android:layout_marginTop="100dp"
     android:orientation="vertical"
     tools:context=".activities.PlayerActivity">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="200dp"
+        android:background="@drawable/background_curved"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/viewBackground"

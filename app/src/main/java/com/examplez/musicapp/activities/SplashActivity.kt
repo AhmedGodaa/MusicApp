@@ -1,15 +1,16 @@
 package com.examplez.musicapp.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.examplez.musicapp.R
 import com.examplez.musicapp.databinding.ActivitySplashBinding
 
 
+@SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
 
@@ -23,13 +24,11 @@ class SplashActivity : AppCompatActivity() {
         playVideo()
         setAnimation()
 
-        binding.imageView.setOnClickListener(View.OnClickListener {
+        binding.imageView.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
-
-        })
-
+        }
 
     }
 

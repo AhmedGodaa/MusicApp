@@ -128,46 +128,6 @@ public class PlayerActivity extends AppCompatActivity {
 
     }
 
-
-    private void buttonPlayPause() {
-        if (mediaPlayer.isPlaying()) {
-            anim.pause();
-            binding.btnPlayPause.setImageResource(R.drawable.ic_play);
-            binding.seekBar.setMax(mediaPlayer.getDuration() / 1000);
-            mediaPlayer.pause();
-//
-            PlayerActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (mediaPlayer != null) {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
-                        binding.seekBar.setProgress(mCurrentPosition);
-                    }
-                    handler.postDelayed(this, 1000);
-                }
-            });
-//
-
-        } else {
-            anim.resume();
-            binding.btnPlayPause.setImageResource(R.drawable.ic_pause);
-            binding.seekBar.setMax(mediaPlayer.getDuration() / 1000);
-            mediaPlayer.start();
-
-
-            PlayerActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (mediaPlayer != null) {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
-                        binding.seekBar.setProgress(mCurrentPosition);
-                    }
-                    handler.postDelayed(this, 1000);
-                }
-            });
-        }
-    }
-
     private void playThreadBtn() {
         playThread = new Thread() {
             @Override
@@ -223,6 +183,45 @@ public class PlayerActivity extends AppCompatActivity {
         prevThread.start();
     }
 
+    private void buttonPlayPause() {
+        if (mediaPlayer.isPlaying()) {
+            anim.pause();
+            binding.btnPlayPause.setImageResource(R.drawable.ic_play);
+            binding.seekBar.setMax(mediaPlayer.getDuration() / 1000);
+            mediaPlayer.pause();
+//
+            PlayerActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mediaPlayer != null) {
+                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                        binding.seekBar.setProgress(mCurrentPosition);
+                    }
+                    handler.postDelayed(this, 1000);
+                }
+            });
+//
+
+        } else {
+            anim.resume();
+            binding.btnPlayPause.setImageResource(R.drawable.ic_pause);
+            binding.seekBar.setMax(mediaPlayer.getDuration() / 1000);
+            mediaPlayer.start();
+
+
+            PlayerActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mediaPlayer != null) {
+                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                        binding.seekBar.setProgress(mCurrentPosition);
+                    }
+                    handler.postDelayed(this, 1000);
+                }
+            });
+        }
+    }
+
     private void buttonNext() {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
@@ -275,7 +274,6 @@ public class PlayerActivity extends AppCompatActivity {
 
         }
     }
-
 
     private void buttonPrevious() {
         if (mediaPlayer.isPlaying()) {

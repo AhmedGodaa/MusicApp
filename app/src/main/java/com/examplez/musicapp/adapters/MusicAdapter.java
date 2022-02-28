@@ -79,9 +79,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
                 return true;
             });
 
-        }
-
-    }
+        }}
 
     private void setImage(Music musicFiles, ItemContainerMusicBinding binding) {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
