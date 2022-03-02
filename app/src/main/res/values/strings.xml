@@ -13,4 +13,5 @@
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
     <string name="search">Search</string>
+    <string name="album_details">Album Details</string>
 </resources>

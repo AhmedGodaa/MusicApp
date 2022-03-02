@@ -1,23 +1,23 @@
 package com.examplez.musicapp.adapters;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.examplez.musicapp.databinding.ItemContainerAlbumBinding;
 import com.examplez.musicapp.listeners.AlbumListener;
 import com.examplez.musicapp.models.Album;
+
 import java.util.ArrayList;
 
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewHolder> {
-    private Context context;
-    private ArrayList<Album> albumsFiles;
-    private AlbumListener listener;
+    ArrayList<Album> albumsFiles;
+    AlbumListener listener;
 
-    public AlbumsAdapter(Context context, ArrayList<Album> albumsFiles, AlbumListener listener) {
-        this.context = context;
+    public AlbumsAdapter(ArrayList<Album> albumsFiles, AlbumListener listener) {
         this.albumsFiles = albumsFiles;
         this.listener = listener;
     }
@@ -61,10 +61,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
             binding.albumSize.setText(numberOfSongs);
             binding.albumImage.setImageDrawable(Drawable.createFromPath(album.getAlbumImage()));
 
-            binding.getRoot().setOnClickListener(view -> {
-                listener.onAlbumClicked(album, position);
-
-            });
+            binding.getRoot().setOnClickListener(view -> listener.onAlbumClicked(album, position));
 
 
         }

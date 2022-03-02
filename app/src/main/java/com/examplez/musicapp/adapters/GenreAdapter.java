@@ -2,25 +2,21 @@ package com.examplez.musicapp.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 
 import com.examplez.musicapp.databinding.ItemContainerGenreBinding;
 import com.examplez.musicapp.listeners.GenreListener;
 import com.examplez.musicapp.models.Genre;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHolder> {
-    private ArrayList<Genre> data;
-    private Context context;
-    private GenreListener modelListener;
+    ArrayList<Genre> data;
+    Context context;
+    GenreListener modelListener;
 
     public GenreAdapter(ArrayList<Genre> data, Context context, GenreListener modelListener) {
         this.context = context;
@@ -43,8 +39,6 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
 
     @Override
     public void onBindViewHolder(@NonNull GenreViewHolder holder, int position) {
-        Genre model = data.get(position);
-
         holder.setGenreData(data.get(position), position);
     }
 
@@ -53,7 +47,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
         return data.size();
     }
 
-    class GenreViewHolder extends RecyclerView.ViewHolder {
+    public class GenreViewHolder extends RecyclerView.ViewHolder {
         ItemContainerGenreBinding binding;
 
 
@@ -65,6 +59,7 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.GenreViewHol
         }
 
         public void setGenreData(Genre model, int position) {
+            modelListener.onClick(model, position);
 
         }
     }

@@ -1,6 +1,7 @@
 package com.examplez.musicapp.fragments;
 
 
+import static com.examplez.musicapp.activities.Godaa.openActivity;
 import static com.examplez.musicapp.activities.MainActivity.albumFiles;
 
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.examplez.musicapp.activities.AlbumActivity;
 import com.examplez.musicapp.adapters.AlbumsAdapter;
 import com.examplez.musicapp.databinding.FragmentAlbumBinding;
 import com.examplez.musicapp.listeners.AlbumListener;
@@ -50,7 +52,7 @@ public class AlbumFragment extends Fragment implements AlbumListener {
     private void setRecyclerView() {
         binding.recyclerView.setHasFixedSize(true);
         if (!(albumFiles.size() < 1)) {
-            albumsAdapter = new AlbumsAdapter(getContext(), albumFiles, this);
+            albumsAdapter = new AlbumsAdapter(albumFiles, this);
             binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
             binding.recyclerView.setAdapter(albumsAdapter);
         }
@@ -61,6 +63,7 @@ public class AlbumFragment extends Fragment implements AlbumListener {
 
     @Override
     public void onAlbumClicked(Album album, int position) {
+        openActivity(getContext(), AlbumActivity.class);
 
     }
 }

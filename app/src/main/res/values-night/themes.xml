@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.MusicApp" parent="ThemeOverlay.MaterialComponents.Light">
+    <style name="Theme.Night" parent="ThemeOverlay.MaterialComponents.Light">
         <!-- Primary brand color. -->
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowFullscreen">true</item>

@@ -1,23 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:background="@color/primaryDark"
     android:layout_height="match_parent"
+    android:layout_width="match_parent"
     tools:context=".activities.AlbumActivity">
 
-    <ImageView
-        android:id="@+id/albumPhoto"
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_height="?actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_background" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:contentDescription="@string/app_name"
+            android:id="@+id/imageBack"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_vertical"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_width="30dp"
+            android:src="@drawable/ic_back"
+            app:tint="@color/white" />
+
+        <TextView
+            android:gravity="center"
+            android:layout_alignEnd="@+id/imageSearch"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/imageBack"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/album_details"
+            android:textColor="@color/white" />
+
+        <ImageView
+            android:contentDescription="@string/app_name"
+            android:id="@+id/imageSearch"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_vertical"
+            android:layout_height="30dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="30dp"
+            android:src="@drawable/ic_search" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="@color/gray"
+        android:id="@+id/relativeLayout2"
+        android:layout_height="180dp"
+        android:layout_width="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
+
+        <ImageView
+            android:id="@+id/albumImage"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_height="90dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_width="90dp" />
+
+        <TextView
+            android:id="@+id/albumName"
+            android:layout_alignParentTop="true"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/albumImage"
+            android:layout_width="wrap_content"
+            android:text="Ahmed Ali Mahmoud"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/albumAuthor"
+            android:layout_below="@+id/albumName"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="2dp"
+            android:layout_toEndOf="@+id/albumImage"
+            android:layout_width="wrap_content"
+            android:text="By Micheal Jackson" />
+
+        <TextView
+            android:id="@+id/albumDetails"
+            android:layout_below="@+id/albumAuthor"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="2dp"
+            android:layout_toEndOf="@id/albumImage"
+            android:layout_width="wrap_content"
+            android:text="1996 . 18 Songs . 64 min" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:background="@drawable/shape_radius"
+            android:drawableStart="@drawable/ic_play"
+            android:fontFamily="@font/ubuntu_regular"
+            android:gravity="center"
+            android:id="@+id/btnPlay"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/albumImage"
+            android:layout_height="38dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:paddingStart="20dp"
+            android:text="Play"
+            android:textAllCaps="false"
+
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:background="@drawable/shape_radius"
+            android:drawableStart="@drawable/ic_share"
+            android:drawableTint="@color/white"
+            android:id="@+id/btnShare"
+            android:layout_below="@id/albumImage"
+            android:layout_height="38dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/btnPlay"
+            android:layout_width="wrap_content"
+            android:text="Share"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:background="@drawable/shape_radius"
+            android:backgroundTint="@color/white"
+            android:id="@+id/btnAddToFavorites"
+            android:layout_below="@id/albumImage"
+            android:layout_height="38dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/btnShare"
+            android:layout_width="wrap_content"
+            android:text="Add to Favorites"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:layout_height="0dp"
+
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/albumPhoto" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2" />
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

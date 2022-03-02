@@ -17,25 +17,21 @@ public class TapAccessorAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
+
     @NonNull
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                SongsFragment songsFragment = new SongsFragment();
-                return songsFragment;
+                return new SongsFragment();
             case 1:
-                PlaylistsFragment playlistsFragment = new PlaylistsFragment();
-                return playlistsFragment;
+                return new PlaylistsFragment();
             case 2:
-                AlbumFragment albumFragment = new AlbumFragment();
-                return albumFragment;
+                return new AlbumFragment();
             case 3:
-                ArtistsFragment artistsFragment = new ArtistsFragment();
-                return artistsFragment;
+                return new ArtistsFragment();
             case 4:
-                GenresFragment genresFragment = new GenresFragment();
-                return genresFragment;
+                return new GenresFragment();
             default:
                 return null;
 

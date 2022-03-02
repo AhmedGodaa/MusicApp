@@ -1,27 +1,22 @@
 package com.examplez.musicapp.adapters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 
 import com.examplez.musicapp.databinding.ItemContainerArtistBinding;
 import com.examplez.musicapp.listeners.ArtistListener;
 import com.examplez.musicapp.models.Artist;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ArtistViewHolder> {
-    private ArrayList<Artist> data;
-    private Context context;
-    private ArtistListener modelListener;
+    ArrayList<Artist> data;
+    Context context;
+    ArtistListener modelListener;
 
     public ArtistAdapter(ArrayList<Artist> data, Context context, ArtistListener modelListener) {
         this.context = context;

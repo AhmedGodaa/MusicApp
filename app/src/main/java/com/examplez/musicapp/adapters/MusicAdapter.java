@@ -25,9 +25,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHolder> {
-    private Context context;
+    Context context;
     private ArrayList<Music> musicFiles;
-    private MusicListener musicListener;
+    MusicListener musicListener;
 
     public MusicAdapter(Context context, ArrayList<Music> musicFiles, MusicListener musicListener) {
         this.context = context;
@@ -79,7 +79,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
                 return true;
             });
 
-        }}
+        }
+    }
 
     private void setImage(Music musicFiles, ItemContainerMusicBinding binding) {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
