@@ -100,6 +100,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
         popupMenu.getMenuInflater().inflate(R.menu.menu_popup, popupMenu.getMenu());
         popupMenu.show();
         popupMenu.setOnMenuItemClickListener(item -> {
+
             switch (item.getItemId()) {
                 case R.id.delete:
                     delete(position, v);
