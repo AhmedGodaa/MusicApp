@@ -39,7 +39,7 @@ public class SongsFragment extends Fragment implements MusicListener {
 
 
     private FragmentSongsBinding binding;
-    public  MusicAdapter musicAdapter;
+    public MusicAdapter musicAdapter;
     private int position;
     private LayoutPlayerBinding playerBinding;
     private BottomSheetDialog bottomSheetDialog;
@@ -93,15 +93,15 @@ public class SongsFragment extends Fragment implements MusicListener {
 
 
     @Override
-    public void onMusicClicked(Music musicFile, int i) {
-        uri = Uri.parse(musicFile.getPath());
+    public void onClick(Music music, int i) {
+        uri = Uri.parse(music.getPath());
         bottomSheetDialog.setContentView(playerBinding.getRoot());
         bottomSheetDialog.show();
         handler = new Handler();
 
         setMusic();
         setSeekBar();
-        setMusicData(musicFile);
+        setMusicData(music);
         setAnimation();
 
 

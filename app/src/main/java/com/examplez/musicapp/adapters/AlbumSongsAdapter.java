@@ -50,7 +50,7 @@ public class AlbumSongsAdapter extends RecyclerView.Adapter<AlbumSongsAdapter.Al
         void setAlbumSongsData(Music music, int position) {
             binding.songName.setText(music.getTitle());
             binding.songDuration.setText(music.getDuration());
-            musicListener.onMusicClicked(music, position);
+            binding.getRoot().setOnClickListener(v -> musicListener.onClick(music, position));
         }
     }
 }

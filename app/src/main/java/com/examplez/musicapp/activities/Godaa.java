@@ -2,7 +2,6 @@ package com.examplez.musicapp.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -24,9 +23,6 @@ public class Godaa extends AppCompatActivity {
         context.startActivity(intent);
     }
 
-    public void windows(Context context) {
-        Toast.makeText(context, "Hello", Toast.LENGTH_SHORT).show();
 
-    }
 
 }
