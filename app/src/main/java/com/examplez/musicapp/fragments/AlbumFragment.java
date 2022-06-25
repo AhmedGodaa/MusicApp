@@ -1,9 +1,9 @@
 package com.examplez.musicapp.fragments;
 
 
-import static com.examplez.musicapp.activities.Godaa.openActivity;
 import static com.examplez.musicapp.activities.MainActivity.albumFiles;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +17,7 @@ import com.examplez.musicapp.activities.AlbumActivity;
 import com.examplez.musicapp.adapters.AlbumsAdapter;
 import com.examplez.musicapp.databinding.FragmentAlbumBinding;
 import com.examplez.musicapp.listeners.AlbumListener;
-import com.examplez.musicapp.models.Album;
+import com.examplez.musicapp.models.Constants;
 
 
 public class AlbumFragment extends Fragment implements AlbumListener {
@@ -62,8 +62,11 @@ public class AlbumFragment extends Fragment implements AlbumListener {
 
 
     @Override
-    public void onAlbumClicked(Album album, int position) {
-        openActivity(getContext(), AlbumActivity.class);
-
+    public void onAlbumClicked(int position) {
+        Intent intent = new Intent(getContext(),AlbumActivity.class);
+        intent.putExtra(Constants.KEY_POSITION,position);
+        startActivity(intent);
     }
+
+
 }

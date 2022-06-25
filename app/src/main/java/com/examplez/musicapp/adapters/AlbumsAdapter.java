@@ -37,6 +37,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
     @Override
     public void onBindViewHolder(@NonNull AlbumViewHolder holder, int position) {
         holder.setAlbumsData(albumsFiles.get(position), position);
+
+
     }
 
     @Override
@@ -47,7 +49,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
     public class AlbumViewHolder extends RecyclerView.ViewHolder {
         ItemContainerAlbumBinding binding;
 
-        public AlbumViewHolder(@NonNull ItemContainerAlbumBinding itemContainerAlbumBinding) {
+        public AlbumViewHolder(ItemContainerAlbumBinding itemContainerAlbumBinding) {
             super(itemContainerAlbumBinding.getRoot());
             binding = itemContainerAlbumBinding;
 
@@ -59,14 +61,17 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumViewH
             binding.artist.setText(album.getArtist());
             String numberOfSongs = " ● " + album.getNumberOfSongs() + " Songs ";
             binding.albumSize.setText(numberOfSongs);
+//            For Old Apis
             binding.albumImage.setImageDrawable(Drawable.createFromPath(album.getAlbumImage()));
-
-            binding.getRoot().setOnClickListener(view -> listener.onAlbumClicked(album, position));
+            binding.getRoot().setOnClickListener(view -> listener.onAlbumClicked(position));
 
 
         }
 
     }
+
+
+
 
 
 }

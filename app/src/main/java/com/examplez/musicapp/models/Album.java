@@ -1,6 +1,5 @@
 package com.examplez.musicapp.models;
 
-import android.provider.MediaStore;
 
 public class Album {
     private String id;
@@ -8,6 +7,7 @@ public class Album {
     private String artist;
     private String albumImage;
     private String numberOfSongs;
+
 
     public String getId() {
         return id;

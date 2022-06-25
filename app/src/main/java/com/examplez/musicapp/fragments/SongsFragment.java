@@ -93,7 +93,7 @@ public class SongsFragment extends Fragment implements MusicListener {
 
 
     @Override
-    public void onMusicClicked(Music musicFile, int i) {
+    public void onMusicClicked(Music musicFile, int position) {
         uri = Uri.parse(musicFile.getPath());
         bottomSheetDialog.setContentView(playerBinding.getRoot());
         bottomSheetDialog.show();
@@ -403,8 +403,7 @@ public class SongsFragment extends Fragment implements MusicListener {
 
     }
 
-
-    private String formattedTime(int mCurrentPosition) {
+    public static String formattedTime(int mCurrentPosition) {
         String totalOut;
         String totalNew;
         String seconds = String.valueOf(mCurrentPosition % 60);
@@ -417,7 +416,6 @@ public class SongsFragment extends Fragment implements MusicListener {
             return totalOut;
         }
     }
-
 
     private void setAnimation() {
         anim = ObjectAnimator.ofFloat(playerBinding.songImageContainer, "rotation", 0, 360);

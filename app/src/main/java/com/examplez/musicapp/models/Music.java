@@ -1,19 +1,19 @@
 package com.examplez.musicapp.models;
 
 public class Music {
-    private String path;
-    private String title;
-    private String artist;
     private String album;
+    private String title;
     private String duration;
+    private String path;
+    private String artist;
     private String id;
 
-    public Music(String path, String title, String artist, String album, String duration, String id) {
-        this.path = path;
-        this.title = title;
-        this.artist = artist;
+    public Music(String album, String title, String duration, String path, String artist, String id) {
         this.album = album;
+        this.title = title;
         this.duration = duration;
+        this.path = path;
+        this.artist = artist;
         this.id = id;
     }
 

@@ -7,7 +7,7 @@
     <item
         android:id="@+id/menu_songs"
         android:icon="@drawable/ic_music"
-        android:title="@string/songs" />
+        android:title="@string/Songs" />
     <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/ic_settings"

@@ -49,7 +49,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
     @Override
     public void onBindViewHolder(@NonNull MusicViewHolder holder, int position) {
         holder.setMusicData(musicFiles.get(position), position);
-        holder.binding.itemAudio.setOnClickListener(v -> musicListener.onMusicClicked(musicFiles.get(position), position));
+
 
 
     }
@@ -74,6 +74,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
             binding.musicTitle.setText(musicFiles.getTitle());
             binding.musicArtist.setText(musicFiles.getArtist());
             setImage(musicFiles, binding);
+            binding.itemAudio.setOnClickListener(v ->
+                    musicListener.onMusicClicked(musicFiles, position));
             binding.getRoot().setOnLongClickListener(v -> {
                 moreClicked(v, position);
                 return true;
@@ -100,6 +102,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
         popupMenu.getMenuInflater().inflate(R.menu.menu_popup, popupMenu.getMenu());
         popupMenu.show();
         popupMenu.setOnMenuItemClickListener(item -> {
+
             switch (item.getItemId()) {
                 case R.id.delete:
                     delete(position, v);

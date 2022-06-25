@@ -82,7 +82,7 @@
             android:layout_marginTop="15dp"
             android:layout_toEndOf="@+id/albumImage"
             android:layout_width="wrap_content"
-            android:text="Ahmed Ali Mahmoud"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="20sp" />
 
@@ -93,8 +93,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="2dp"
             android:layout_toEndOf="@+id/albumImage"
-            android:layout_width="wrap_content"
-            android:text="By Micheal Jackson" />
+            android:layout_width="wrap_content" />
 
         <TextView
             android:id="@+id/albumDetails"
@@ -104,7 +103,7 @@
             android:layout_marginTop="2dp"
             android:layout_toEndOf="@id/albumImage"
             android:layout_width="wrap_content"
-            android:text="1996 . 18 Songs . 64 min" />
+            android:text="" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:background="@drawable/shape_radius"
@@ -161,8 +160,8 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/musicRecyclerView"
         android:layout_height="0dp"
-
         android:layout_width="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
