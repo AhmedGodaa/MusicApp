@@ -82,7 +82,6 @@
             android:layout_marginTop="15dp"
             android:layout_toEndOf="@+id/albumImage"
             android:layout_width="wrap_content"
-            android:text="Ahmed Ali Mahmoud"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
@@ -93,8 +92,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="2dp"
             android:layout_toEndOf="@+id/albumImage"
-            android:layout_width="wrap_content"
-            android:text="By Micheal Jackson" />
+            android:layout_width="wrap_content" />
 
         <TextView
             android:id="@+id/albumDetails"
@@ -103,8 +101,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="2dp"
             android:layout_toEndOf="@id/albumImage"
-            android:layout_width="wrap_content"
-            android:text="1996 . 18 Songs . 64 min" />
+            android:layout_width="wrap_content" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:background="@drawable/shape_radius"
@@ -120,9 +117,8 @@
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:paddingStart="20dp"
-            android:text="Play"
+            android:text="@string/play"
             android:textAllCaps="false"
-
             android:textColor="@color/white"
             android:textSize="15sp" />
 
@@ -138,7 +134,7 @@
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@id/btnPlay"
             android:layout_width="wrap_content"
-            android:text="Share"
+            android:text="@string/share"
             android:textAllCaps="false"
             android:textColor="@color/white" />
 
@@ -153,7 +149,7 @@
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@id/btnShare"
             android:layout_width="wrap_content"
-            android:text="Add to Favorites"
+            android:text="@string/add_to_favorites"
             android:textAllCaps="false"
             android:textColor="@color/white" />
 

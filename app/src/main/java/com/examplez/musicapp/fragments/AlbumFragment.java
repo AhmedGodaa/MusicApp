@@ -65,7 +65,7 @@ public class AlbumFragment extends Fragment implements AlbumListener {
     @Override
     public void onClick(Album album, int position) {
         Intent intent = new Intent(getContext(), AlbumActivity.class);
-        intent.putExtra(Constants.KEY_ALBUM, album.getAlbum());
+        intent.putExtra(Constants.KEY_POSITION, position);
         startActivity(intent);
 
     }

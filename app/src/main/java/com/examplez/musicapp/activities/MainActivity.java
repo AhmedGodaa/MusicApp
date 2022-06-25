@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media._ID,
+                MediaStore.Audio.Media.GENRE,
 
         };
         Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
@@ -146,7 +147,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 String path = cursor.getString(3);
                 String artist = cursor.getString(4);
                 String id = cursor.getString(5);
-                Music musicFiles = new Music(path, title, artist, album, duration, id);
+                String genre = cursor.getString(6);
+                Music musicFiles = new Music(album, title, duration, path, artist, id, genre);
 
 
                 tempAudioList.add(musicFiles);

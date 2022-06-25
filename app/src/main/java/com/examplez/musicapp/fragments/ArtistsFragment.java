@@ -55,7 +55,7 @@ public class ArtistsFragment extends Fragment implements ArtistListener {
     }
 
     @Override
-    public void onArtistClicked(Artist artist) {
+    public void onClick(Artist artist, int position) {
 
     }
 }

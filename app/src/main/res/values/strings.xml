@@ -14,4 +14,7 @@
     <string name="navigation_drawer_close">close</string>
     <string name="search">Search</string>
     <string name="album_details">Album Details</string>
+    <string name="add_to_favorites">Add to Favorites</string>
+    <string name="share">Share</string>
+    <string name="play">Play</string>
 </resources>
