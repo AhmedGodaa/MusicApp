@@ -3,6 +3,9 @@ package com.examplez.musicapp.activities;
 import static com.examplez.musicapp.activities.MainActivity.musicFiles;
 
 import android.animation.ObjectAnimator;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.GradientDrawable;
@@ -11,9 +14,11 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,22 +27,25 @@ import androidx.palette.graphics.Palette;
 import com.bumptech.glide.Glide;
 import com.examplez.musicapp.R;
 import com.examplez.musicapp.databinding.ActivityPlayerBinding;
+import com.examplez.musicapp.listeners.ActionPlaying;
 import com.examplez.musicapp.models.Constants;
 import com.examplez.musicapp.models.Music;
+import com.examplez.musicapp.services.MusicService;
 
 import java.util.ArrayList;
 
 import me.tankery.lib.circularseekbar.CircularSeekBar;
 
-public class PlayerActivity extends AppCompatActivity {
-    private ActivityPlayerBinding binding;
-    private static ArrayList<Music> listSongs;
+public class PlayerActivity extends AppCompatActivity implements ActionPlaying, ServiceConnection {
+    ActivityPlayerBinding binding;
+    static ArrayList<Music> listSongs;
     int position = -1;
     static Uri uri;
     static MediaPlayer mediaPlayer;
-    private Handler handler = new Handler();
-    private Thread playThread, prevThread, nextThread;
-    private ObjectAnimator anim;
+    Handler handler = new Handler();
+    Thread playThread, prevThread, nextThread;
+    ObjectAnimator anim;
+    MusicService musicService;
 
 
     @Override
@@ -183,7 +191,7 @@ public class PlayerActivity extends AppCompatActivity {
         prevThread.start();
     }
 
-    private void buttonPlayPause() {
+    public void buttonPlayPause() {
         if (mediaPlayer.isPlaying()) {
             anim.pause();
             binding.btnPlayPause.setImageResource(R.drawable.ic_play);
@@ -222,7 +230,7 @@ public class PlayerActivity extends AppCompatActivity {
         }
     }
 
-    private void buttonNext() {
+    public void buttonNext() {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -275,7 +283,7 @@ public class PlayerActivity extends AppCompatActivity {
         }
     }
 
-    private void buttonPrevious() {
+    public void buttonPrevious() {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -348,10 +356,18 @@ public class PlayerActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        Intent intent = new Intent(this, MusicService.class);
+        bindService(intent, this, BIND_AUTO_CREATE);
         playThreadBtn();
         nextThreadBtn();
         prevThreadBtn();
         super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unbindService(this);
     }
 
     private void metaData(Uri uri) {
@@ -399,4 +415,18 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+        MusicService.MyBinder binder = (MusicService.MyBinder) iBinder;
+        musicService = binder.getService();
+        Toast.makeText(this, "Connected" + musicService, Toast.LENGTH_SHORT).show();
+
+
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+        musicService = null;
+
+    }
 }

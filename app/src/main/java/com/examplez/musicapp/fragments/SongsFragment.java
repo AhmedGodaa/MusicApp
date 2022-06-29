@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -94,15 +95,16 @@ public class SongsFragment extends Fragment implements MusicListener {
 
     @Override
     public void onClick(Music music, int i) {
-        uri = Uri.parse(music.getPath());
-        bottomSheetDialog.setContentView(playerBinding.getRoot());
-        bottomSheetDialog.show();
-        handler = new Handler();
-
-        setMusic();
-        setSeekBar();
-        setMusicData(music);
-        setAnimation();
+        Toast.makeText(getContext(), "" + music.getGenre(), Toast.LENGTH_SHORT).show();
+//        uri = Uri.parse(music.getPath());
+//        bottomSheetDialog.setContentView(playerBinding.getRoot());
+//        bottomSheetDialog.show();
+//        handler = new Handler();
+//
+//        setMusic();
+//        setSeekBar();
+//        setMusicData(music);
+//        setAnimation();
 
 
     }
