@@ -1,6 +1,6 @@
 package com.examplez.musicapp.activities;
 
-import static com.examplez.musicapp.activities.MainActivity.musicFiles;
+import static com.examplez.musicapp.activities.AlbumActivity.songs;
 
 import android.animation.ObjectAnimator;
 import android.content.ComponentName;
@@ -10,17 +10,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.GradientDrawable;
 import android.media.MediaMetadataRetriever;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.palette.graphics.Palette;
 
@@ -38,10 +35,11 @@ import me.tankery.lib.circularseekbar.CircularSeekBar;
 
 public class PlayerActivity extends AppCompatActivity implements ActionPlaying, ServiceConnection {
     ActivityPlayerBinding binding;
-    static ArrayList<Music> listSongs;
+    public static ArrayList<Music> listSongs = new ArrayList<>();
     int position = -1;
+    int songPosition;
     static Uri uri;
-    static MediaPlayer mediaPlayer;
+    //    static MediaPlayer mediaPlayer;
     Handler handler = new Handler();
     Thread playThread, prevThread, nextThread;
     ObjectAnimator anim;
@@ -54,11 +52,10 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
         binding = ActivityPlayerBinding.inflate(getLayoutInflater());
         uri = Uri.parse(getIntent().getStringExtra(Constants.KEY_PATH));
         setContentView(binding.getRoot());
-        listSongs = new ArrayList<>();
-        listSongs = musicFiles;
-        musicActions();
-        setSeekBar();
+        listSongs = songs;
+        songPosition = getIntent().getIntExtra(Constants.KEY_POSITION, 0);
         setSongData();
+        musicServiceStart();
 
 
         anim = ObjectAnimator.ofFloat(binding.songImageContainer, "rotation", 0, 360);
@@ -68,29 +65,48 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
         anim.setInterpolator(new LinearInterpolator());
         anim.setRepeatMode(ObjectAnimator.RESTART);
         anim.start();
-        binding.btnBack.setOnClickListener(v -> {
-            onBackPressed();
-        });
+        binding.btnBack.setOnClickListener(v -> onBackPressed());
 
 
     }
 
+    private void musicServiceStart() {
+        Intent intent = new Intent(getBaseContext(), MusicService.class);
+        intent.putExtra(Constants.KEY_SERVICE_POSITION, String.valueOf(songPosition));
+        startService(intent);
+    }
+
+
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+        MusicService.MyBinder binder = (MusicService.MyBinder) iBinder;
+        musicService = binder.getService();
+        Toast.makeText(this, "Connected" + musicService, Toast.LENGTH_SHORT).show();
+        setSeekBar();
+
+
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+        musicService = null;
+
+    }
 
     private void setSongData() {
         binding.songName.setText(getIntent().getStringExtra(Constants.KEY_TITLE));
-
-        binding.tvDurationTotal.setText(formattedTime(mediaPlayer.getDuration() / 1000));
+        binding.tvDurationTotal.setText(formattedTime(Integer.parseInt(getIntent().getStringExtra(Constants.KEY_DURATION))));
         metaData(uri);
     }
 
     private void setSeekBar() {
-
+        binding.seekBar.setMax(musicService.getDuration() / 1000f);
         binding.seekBar.setOnSeekBarChangeListener(new CircularSeekBar.OnCircularSeekBarChangeListener() {
             @Override
             public void onProgressChanged(CircularSeekBar seekBar, float i, boolean b) {
-                if (mediaPlayer != null && b) {
+                if (musicService != null && b) {
                     int c = (int) i;
-                    mediaPlayer.seekTo(c * 1000);
+                    musicService.seekTo(c * 1000);
                 }
             }
 
@@ -107,8 +123,8 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
         PlayerActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mediaPlayer != null) {
-                    int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                if (musicService != null) {
+                    int mCurrentPosition = musicService.getCurrentPosition() / 1000;
                     binding.seekBar.setProgress(mCurrentPosition);
                     binding.tvDurationPlayed.setText(formattedTime(mCurrentPosition));
                 }
@@ -119,34 +135,12 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
 
     }
 
-    private void musicActions() {
-        if (listSongs != null) {
-            binding.btnPlayPause.setImageResource(R.drawable.ic_pause);
-        }
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-            mediaPlayer.start();
-        } else {
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-            mediaPlayer.start();
-        }
-        binding.seekBar.setMax(mediaPlayer.getDuration() / 1000);
-
-    }
-
     private void playThreadBtn() {
         playThread = new Thread() {
             @Override
             public void run() {
                 super.run();
-                binding.btnPlayPause.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        buttonPlayPause();
-                    }
-                });
+                binding.btnPlayPause.setOnClickListener(view -> buttonPlayPause());
             }
 
 
@@ -159,12 +153,7 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
             @Override
             public void run() {
                 super.run();
-                binding.btnNext.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        buttonNext();
-                    }
-                });
+                binding.btnNext.setOnClickListener(view -> buttonNext());
             }
 
 
@@ -178,12 +167,7 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
             @Override
             public void run() {
                 super.run();
-                binding.btnPrevious.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        buttonPrevious();
-                    }
-                });
+                binding.btnPrevious.setOnClickListener(view -> buttonPrevious());
             }
 
 
@@ -192,17 +176,17 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     }
 
     public void buttonPlayPause() {
-        if (mediaPlayer.isPlaying()) {
+        if (musicService.isPlaying()) {
             anim.pause();
             binding.btnPlayPause.setImageResource(R.drawable.ic_play);
-            binding.seekBar.setMax(mediaPlayer.getDuration() / 1000);
-            mediaPlayer.pause();
+            binding.seekBar.setMax(musicService.getDuration() / 1000f);
+            musicService.pause();
 //
             PlayerActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (mediaPlayer != null) {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                    if (musicService != null) {
+                        int mCurrentPosition = musicService.getCurrentPosition() / 1000;
                         binding.seekBar.setProgress(mCurrentPosition);
                     }
                     handler.postDelayed(this, 1000);
@@ -213,15 +197,15 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
         } else {
             anim.resume();
             binding.btnPlayPause.setImageResource(R.drawable.ic_pause);
-            binding.seekBar.setMax(mediaPlayer.getDuration() / 1000);
-            mediaPlayer.start();
+            binding.seekBar.setMax(musicService.getDuration() / 1000f);
+            musicService.start();
 
 
             PlayerActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (mediaPlayer != null) {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                    if (musicService != null) {
+                        int mCurrentPosition = musicService.getCurrentPosition() / 1000;
                         binding.seekBar.setProgress(mCurrentPosition);
                     }
                     handler.postDelayed(this, 1000);
@@ -231,47 +215,47 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     }
 
     public void buttonNext() {
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
+        if (musicService.isPlaying()) {
+            musicService.stop();
+            musicService.release();
             position = ((position + 1) % listSongs.size());
             uri = Uri.parse(listSongs.get(position).getPath());
             metaData(uri);
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-            binding.tvDurationTotal.setText(formattedTime(mediaPlayer.getDuration() / 1000));
+            musicService.createMediaPlayer(position);
+            binding.tvDurationTotal.setText(formattedTime(musicService.getDuration() / 1000));
             binding.songName.setText(listSongs.get(position).getTitle());
-            binding.seekBar.setMax(mediaPlayer.getDuration() / 1000);
+            binding.seekBar.setMax(musicService.getDuration() / 1000f);
             PlayerActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (mediaPlayer != null) {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                    if (musicService != null) {
+                        int mCurrentPosition = musicService.getCurrentPosition() / 1000;
                         binding.seekBar.setProgress(mCurrentPosition);
                     }
                     handler.postDelayed(this, 1000);
                 }
             });
             binding.btnPlayPause.setImageResource(R.drawable.ic_pause);
-            mediaPlayer.start();
+            musicService.start();
 
 
         } else {
-            mediaPlayer.stop();
-            mediaPlayer.release();
+            musicService.stop();
+            musicService.release();
             position = ((position + 1) % listSongs.size());
             uri = Uri.parse(listSongs.get(position).getPath());
             metaData(uri);
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-            binding.tvDurationTotal.setText(formattedTime(mediaPlayer.getDuration() / 1000));
+            musicService.createMediaPlayer(position);
+            binding.tvDurationTotal.setText(formattedTime(musicService.getDuration() / 1000));
             binding.songName.setText(listSongs.get(position).getTitle());
-            binding.seekBar.setMax(mediaPlayer.getDuration() / 1000);
+            binding.seekBar.setMax(musicService.getDuration() / 1000f);
 
 //
             PlayerActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (mediaPlayer != null) {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                    if (musicService != null) {
+                        int mCurrentPosition = musicService.getCurrentPosition() / 1000;
                         binding.seekBar.setProgress(mCurrentPosition);
                     }
                     handler.postDelayed(this, 1000);
@@ -284,49 +268,49 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     }
 
     public void buttonPrevious() {
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
+        if (musicService.isPlaying()) {
+            musicService.stop();
+            musicService.release();
             position = ((position - 1) < 0 ? listSongs.size() - 1 : (position - 1));
             uri = Uri.parse(listSongs.get(position).getPath());
             metaData(uri);
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-            binding.tvDurationTotal.setText(formattedTime(mediaPlayer.getDuration() / 1000));
+            musicService.createMediaPlayer(position);
+            binding.tvDurationTotal.setText(formattedTime(musicService.getDuration() / 1000));
             binding.songName.setText(listSongs.get(position).getTitle());
-            binding.seekBar.setMax(mediaPlayer.getDuration() / 1000);
+            binding.seekBar.setMax(musicService.getDuration() / 1000f);
             PlayerActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (mediaPlayer != null) {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                    if (musicService != null) {
+                        int mCurrentPosition = musicService.getCurrentPosition() / 1000;
                         binding.seekBar.setProgress(mCurrentPosition);
                     }
                     handler.postDelayed(this, 1000);
                 }
             });
             binding.btnPlayPause.setImageResource(R.drawable.ic_pause);
-            mediaPlayer.start();
+            musicService.start();
 
 
         } else {
-            mediaPlayer.stop();
-            mediaPlayer.release();
+            musicService.stop();
+            musicService.release();
             position = ((position - 1) < 0 ? listSongs.size() - 1 : (position - 1));
             uri = Uri.parse(listSongs.get(position).getPath());
             metaData(uri);
-            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
-            binding.tvDurationTotal.setText(formattedTime(mediaPlayer.getDuration() / 1000));
+            musicService.createMediaPlayer(position);
+            binding.tvDurationTotal.setText(formattedTime(musicService.getDuration() / 1000));
 
 
             binding.songName.setText(listSongs.get(position).getTitle());
-            binding.seekBar.setMax(mediaPlayer.getDuration() / 1000);
+            binding.seekBar.setMax(musicService.getDuration() / 1000f);
 
 
             PlayerActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (mediaPlayer != null) {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                    if (musicService != null) {
+                        int mCurrentPosition = musicService.getCurrentPosition() / 1000;
                         binding.seekBar.setProgress(mCurrentPosition);
                     }
                     handler.postDelayed(this, 1000);
@@ -340,8 +324,8 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     }
 
     private String formattedTime(int mCurrentPosition) {
-        String totalOut = "";
-        String totalNew = "";
+        String totalOut ;
+        String totalNew ;
         String seconds = String.valueOf(mCurrentPosition % 60);
         String minutes = String.valueOf(mCurrentPosition / 60);
         totalOut = minutes + ":" + seconds;
@@ -352,7 +336,6 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
             return totalOut;
         }
     }
-
 
     @Override
     protected void onResume() {
@@ -384,23 +367,20 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
 
 
             bitmap = BitmapFactory.decodeByteArray(art, 0, art.length);
-            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
-                @Override
-                public void onGenerated(@Nullable Palette palette) {
-                    Palette.Swatch swatch = palette.getDominantSwatch();
-                    if (swatch != null) {
+            Palette.from(bitmap).generate(palette -> {
+                Palette.Swatch swatch = palette.getDominantSwatch();
+                if (swatch != null) {
 
-                        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
-                                new int[]{swatch.getRgb(), 0x00000000});
-                        binding.viewBackground.setBackground(gradientDrawable);
+                    GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                            new int[]{swatch.getRgb(), 0x00000000});
+                    binding.viewBackground.setBackground(gradientDrawable);
 
 
-                    } else {
-                        GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
-                                new int[]{0xff000000, 0xff000000});
-                        binding.viewBackground.setBackground(gradientDrawable);
+                } else {
+                    GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                            new int[]{0xff000000, 0xff000000});
+                    binding.viewBackground.setBackground(gradientDrawable);
 
-                    }
                 }
             });
 
@@ -415,18 +395,4 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     }
 
 
-    @Override
-    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-        MusicService.MyBinder binder = (MusicService.MyBinder) iBinder;
-        musicService = binder.getService();
-        Toast.makeText(this, "Connected" + musicService, Toast.LENGTH_SHORT).show();
-
-
-    }
-
-    @Override
-    public void onServiceDisconnected(ComponentName componentName) {
-        musicService = null;
-
-    }
 }

@@ -7,6 +7,7 @@ public class Constants {
     public static final String KEY_ALBUM = "album";
     public static final String KEY_DURATION = "duration";
     public static final String KEY_POSITION = "position";
+    public static final String KEY_SERVICE_POSITION = "servicePosition";
     public static final String CHANNEL_ID_1 = "channel1";
     public static final String CHANNEL_ID_2 = "channel2";
     public static final String ACTION_NEXT = "actionNext";

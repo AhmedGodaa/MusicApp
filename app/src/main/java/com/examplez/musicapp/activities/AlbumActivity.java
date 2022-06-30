@@ -21,10 +21,10 @@ import java.util.ArrayList;
 
 public class AlbumActivity extends AppCompatActivity implements MusicListener {
     ActivityAlbumBinding binding;
-    int albumPosition;
-    Album album;
-    ArrayList<Music> songs;
     MusicAdapter musicAdapter;
+    Album album;
+    int albumPosition;
+    public static ArrayList<Music> songs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
