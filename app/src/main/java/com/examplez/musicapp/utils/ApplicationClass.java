@@ -1,4 +1,4 @@
-package com.examplez.musicapp.services;
+package com.examplez.musicapp.utils;
 
 import android.app.Application;
 import android.app.NotificationChannel;

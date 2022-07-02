@@ -34,6 +34,7 @@ public class AlbumActivity extends AppCompatActivity implements MusicListener {
         setData();
         setSongs();
         setRecyclerView();
+        binding.imageBack.setOnClickListener(v -> onBackPressed());
 
 
     }
@@ -73,7 +74,7 @@ public class AlbumActivity extends AppCompatActivity implements MusicListener {
     @Override
     public void onClick(Music music, int position) {
         Intent intent = new Intent(this, PlayerActivity.class);
-        Music _music = musicFiles.get(position);
+        Music _music = songs.get(position);
         intent.putExtra(Constants.KEY_POSITION, position);
         intent.putExtra(Constants.KEY_TITLE, _music.getTitle());
         intent.putExtra(Constants.KEY_ALBUM, _music.getAlbum());

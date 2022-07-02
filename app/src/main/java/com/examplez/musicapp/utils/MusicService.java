@@ -1,6 +1,7 @@
-package com.examplez.musicapp.services;
+package com.examplez.musicapp.utils;
 
 import static com.examplez.musicapp.activities.AlbumActivity.songs;
+import static com.examplez.musicapp.activities.MainActivity.musicFiles;
 
 import android.app.Service;
 import android.content.Intent;
@@ -20,12 +21,15 @@ public class MusicService extends Service {
     IBinder myBinder = new MyBinder();
     MediaPlayer mediaPlayer;
     ArrayList<Music> music = new ArrayList<>();
+    PreferenceManager preferenceManager;
     Uri uri;
     int position;
+    boolean activityBoolean;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        preferenceManager = new PreferenceManager(getBaseContext());
 
     }
 
@@ -43,13 +47,17 @@ public class MusicService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        position = Integer.parseInt(intent.getStringExtra(Constants.KEY_SERVICE_POSITION));
-        playMedia(position);
-        return super.onStartCommand(intent, flags, startId);
+//        position = Integer.parseInt(intent.getStringExtra(Constants.KEY_SERVICE_POSITION));
+        activityBoolean = intent.getBooleanExtra(Constants.SERVICE_STARTER, true);
+        return START_STICKY;
     }
 
-    private void playMedia(int position) {
-        music = songs;
+    public void playMedia(int position) {
+        if (activityBoolean) {
+            music = musicFiles;
+        } else {
+            music = songs;
+        }
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -99,5 +107,7 @@ public class MusicService extends Service {
     public void createMediaPlayer(int position) {
         uri = Uri.parse(music.get(position).getPath());
         mediaPlayer = MediaPlayer.create(getBaseContext(), uri);
+        preferenceManager.putString(Constants.AUDIO_URI, uri.toString());
+
     }
 }

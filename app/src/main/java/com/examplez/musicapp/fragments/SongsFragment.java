@@ -1,21 +1,27 @@
 package com.examplez.musicapp.fragments;
 
+import static android.content.Context.BIND_AUTO_CREATE;
 import static com.examplez.musicapp.activities.MainActivity.musicFiles;
 
 import android.animation.ObjectAnimator;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.GradientDrawable;
 import android.media.MediaMetadataRetriever;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -28,14 +34,17 @@ import com.examplez.musicapp.R;
 import com.examplez.musicapp.adapters.MusicAdapter;
 import com.examplez.musicapp.databinding.FragmentSongsBinding;
 import com.examplez.musicapp.databinding.LayoutPlayerBinding;
+import com.examplez.musicapp.listeners.ActionPlaying;
 import com.examplez.musicapp.listeners.MusicListener;
+import com.examplez.musicapp.models.Constants;
 import com.examplez.musicapp.models.Music;
+import com.examplez.musicapp.utils.MusicService;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import me.tankery.lib.circularseekbar.CircularSeekBar;
 
 
-public class SongsFragment extends Fragment implements MusicListener {
+public class SongsFragment extends Fragment implements MusicListener, ServiceConnection, ActionPlaying {
 
 
     private FragmentSongsBinding binding;
@@ -44,11 +53,13 @@ public class SongsFragment extends Fragment implements MusicListener {
     private LayoutPlayerBinding playerBinding;
     private BottomSheetDialog bottomSheetDialog;
     private ObjectAnimator anim;
-    static MediaPlayer mediaPlayer;
     static Uri uri;
     private Handler handler;
     Thread playThread, prevThread, nextThread;
     int seekBarMax;
+    MusicService musicService;
+    int songPosition;
+    MediaSessionCompat mediaSessionCompat;
 
 
     public SongsFragment() {
@@ -68,9 +79,40 @@ public class SongsFragment extends Fragment implements MusicListener {
         binding = FragmentSongsBinding.inflate(getLayoutInflater());
         setRecyclerView();
         addPlayerDialog();
-
+        mediaSessionCompat = new MediaSessionCompat(requireContext(), "My Audio ");
+        musicServiceStart();
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onClick(Music music, int position) {
+        songPosition = position;
+        uri = Uri.parse(music.getPath());
+        bottomSheetDialog.setContentView(playerBinding.getRoot());
+        bottomSheetDialog.show();
+        handler = new Handler();
+
+        if (musicService != null) {
+            musicService.playMedia(position);
+            setSeekBar();
+            setMusicData(music);
+            setAnimation();
+        } else {
+            Toast.makeText(requireContext(), "Music Service Null", Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+
+    private void musicServiceStart() {
+        //        showNotification(R.drawable.ic_pause);
+        Intent intent = new Intent(requireContext(), MusicService.class);
+        requireActivity().bindService(intent, this, BIND_AUTO_CREATE);
+        intent.putExtra(Constants.SERVICE_STARTER, true);
+        requireActivity().startService(intent);
+        Toast.makeText(requireContext(), "" + musicService, Toast.LENGTH_SHORT).show();
+
     }
 
     private void setRecyclerView() {
@@ -93,46 +135,12 @@ public class SongsFragment extends Fragment implements MusicListener {
 
 
     @Override
-    public void onClick(Music music, int i) {
-        uri = Uri.parse(music.getPath());
-        bottomSheetDialog.setContentView(playerBinding.getRoot());
-        bottomSheetDialog.show();
-        handler = new Handler();
-
-        setMusic();
-        setSeekBar();
-        setMusicData(music);
-        setAnimation();
-
-
-    }
-
-    @Override
     public void onResume() {
+
         playThreadBtn();
         nextThreadBtn();
         prevThreadBtn();
         super.onResume();
-    }
-
-    private void setMusic() {
-        if (musicFiles != null) {
-            playerBinding.btnPlayPause.setImageResource(R.drawable.ic_pause);
-        }
-        if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
-        }
-        mediaPlayer = MediaPlayer.create(getContext(), uri);
-        mediaPlayer.start();
-        playerBinding.seekBar.setMax(seekBarMax);
-
-    }
-
-    private void setMusicData(Music musicFile) {
-        playerBinding.songName.setText(musicFile.getTitle());
-        playerBinding.tvDurationTotal.setText(formattedTime(mediaPlayer.getDuration() / 1000));
-        metaData(uri);
     }
 
     private void playThreadBtn() {
@@ -175,18 +183,18 @@ public class SongsFragment extends Fragment implements MusicListener {
         prevThread.start();
     }
 
-    private void buttonPlayPause() {
-        if (mediaPlayer.isPlaying()) {
+    public void buttonPlayPause() {
+        if (musicService.isPlaying()) {
             anim.pause();
             playerBinding.btnPlayPause.setImageResource(R.drawable.ic_play);
             playerBinding.seekBar.setMax(seekBarMax);
-            mediaPlayer.pause();
+            musicService.pause();
 //
             requireActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (mediaPlayer != null) {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                    if (musicService != null) {
+                        int mCurrentPosition = musicService.getCurrentPosition() / 1000;
                         playerBinding.seekBar.setProgress(mCurrentPosition);
                     }
                     handler.postDelayed(this, 1000);
@@ -198,14 +206,14 @@ public class SongsFragment extends Fragment implements MusicListener {
             anim.resume();
             playerBinding.btnPlayPause.setImageResource(R.drawable.ic_pause);
             playerBinding.seekBar.setMax(seekBarMax);
-            mediaPlayer.start();
+            musicService.start();
 
 
             requireActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (mediaPlayer != null) {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                    if (musicService != null) {
+                        int mCurrentPosition = musicService.getCurrentPosition() / 1000;
                         playerBinding.seekBar.setProgress(mCurrentPosition);
                     }
                     handler.postDelayed(this, 1000);
@@ -214,40 +222,40 @@ public class SongsFragment extends Fragment implements MusicListener {
         }
     }
 
-    private void buttonNext() {
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
+    public void buttonNext() {
+        if (musicService.isPlaying()) {
+            musicService.stop();
+            musicService.release();
             position = ((position + 1) % musicFiles.size());
             uri = Uri.parse(musicFiles.get(position).getPath());
             metaData(uri);
-            mediaPlayer = MediaPlayer.create(getContext(), uri);
-            playerBinding.tvDurationTotal.setText(formattedTime(mediaPlayer.getDuration() / 1000));
+            musicService.createMediaPlayer(position);
+            playerBinding.tvDurationTotal.setText(formattedTime(musicService.getDuration() / 1000));
             playerBinding.songName.setText(musicFiles.get(position).getTitle());
 
             playerBinding.seekBar.setMax(seekBarMax);
             requireActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (mediaPlayer != null) {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                    if (musicService != null) {
+                        int mCurrentPosition = musicService.getCurrentPosition() / 1000;
                         playerBinding.seekBar.setProgress(mCurrentPosition);
                     }
                     handler.postDelayed(this, 1000);
                 }
             });
             playerBinding.btnPlayPause.setImageResource(R.drawable.ic_pause);
-            mediaPlayer.start();
+            musicService.start();
 
 
         } else {
-            mediaPlayer.stop();
-            mediaPlayer.release();
+            musicService.stop();
+            musicService.release();
             position = ((position + 1) % musicFiles.size());
             uri = Uri.parse(musicFiles.get(position).getPath());
             metaData(uri);
-            mediaPlayer = MediaPlayer.create(getContext(), uri);
-            playerBinding.tvDurationTotal.setText(formattedTime(mediaPlayer.getDuration() / 1000));
+            musicService.createMediaPlayer(position);
+            playerBinding.tvDurationTotal.setText(formattedTime(musicService.getDuration() / 1000));
             playerBinding.songName.setText(musicFiles.get(position).getTitle());
             playerBinding.seekBar.setMax(seekBarMax);
 
@@ -255,8 +263,8 @@ public class SongsFragment extends Fragment implements MusicListener {
             requireActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (mediaPlayer != null) {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                    if (musicService != null) {
+                        int mCurrentPosition = musicService.getCurrentPosition() / 1000;
                         playerBinding.seekBar.setProgress(mCurrentPosition);
                     }
                     handler.postDelayed(this, 1000);
@@ -268,39 +276,39 @@ public class SongsFragment extends Fragment implements MusicListener {
         }
     }
 
-    private void buttonPrevious() {
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-            mediaPlayer.release();
+    public void buttonPrevious() {
+        if (musicService.isPlaying()) {
+            musicService.stop();
+            musicService.release();
             position = ((position - 1) < 0 ? musicFiles.size() - 1 : (position - 1));
             uri = Uri.parse(musicFiles.get(position).getPath());
             metaData(uri);
-            mediaPlayer = MediaPlayer.create(getContext(), uri);
-            playerBinding.tvDurationTotal.setText(formattedTime(mediaPlayer.getDuration() / 1000));
+            musicService.createMediaPlayer(position);
+            playerBinding.tvDurationTotal.setText(formattedTime(musicService.getDuration() / 1000));
             playerBinding.songName.setText(musicFiles.get(position).getTitle());
             playerBinding.seekBar.setMax(seekBarMax);
             requireActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (mediaPlayer != null) {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                    if (musicService != null) {
+                        int mCurrentPosition = musicService.getCurrentPosition() / 1000;
                         playerBinding.seekBar.setProgress(mCurrentPosition);
                     }
                     handler.postDelayed(this, 1000);
                 }
             });
             playerBinding.btnPlayPause.setImageResource(R.drawable.ic_pause);
-            mediaPlayer.start();
+            musicService.start();
 
 
         } else {
-            mediaPlayer.stop();
-            mediaPlayer.release();
+            musicService.stop();
+            musicService.release();
             position = ((position - 1) < 0 ? musicFiles.size() - 1 : (position - 1));
             uri = Uri.parse(musicFiles.get(position).getPath());
             metaData(uri);
-            mediaPlayer = MediaPlayer.create(getContext(), uri);
-            playerBinding.tvDurationTotal.setText(formattedTime(mediaPlayer.getDuration() / 1000));
+            musicService.createMediaPlayer(position);
+            playerBinding.tvDurationTotal.setText(formattedTime(musicService.getDuration() / 1000));
 
 
             playerBinding.songName.setText(musicFiles.get(position).getTitle());
@@ -310,8 +318,8 @@ public class SongsFragment extends Fragment implements MusicListener {
             requireActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (mediaPlayer != null) {
-                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                    if (musicService != null) {
+                        int mCurrentPosition = musicService.getCurrentPosition() / 1000;
                         playerBinding.seekBar.setProgress(mCurrentPosition);
                     }
                     handler.postDelayed(this, 1000);
@@ -325,11 +333,16 @@ public class SongsFragment extends Fragment implements MusicListener {
     }
 
     private void metaData(Uri uri) {
+        byte[] art = null;
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        retriever.setDataSource(uri.toString());
-        byte[] art = retriever.getEmbeddedPicture();
-        Bitmap bitmap;
+        try {
+            retriever.setDataSource(uri.toString());
+            art = retriever.getEmbeddedPicture();
 
+        } catch (Exception e) {
+
+        }
+        Bitmap bitmap;
         if (art != null) {
             Glide.with(this)
                     .asBitmap()
@@ -371,9 +384,9 @@ public class SongsFragment extends Fragment implements MusicListener {
         playerBinding.seekBar.setOnSeekBarChangeListener(new CircularSeekBar.OnCircularSeekBarChangeListener() {
             @Override
             public void onProgressChanged(CircularSeekBar seekBar, float i, boolean b) {
-                if (mediaPlayer != null && b) {
+                if (musicService != null && b) {
                     int c = (int) i;
-                    mediaPlayer.seekTo(c * 1000);
+                    musicService.seekTo(c * 1000);
                 }
             }
 
@@ -391,8 +404,8 @@ public class SongsFragment extends Fragment implements MusicListener {
         requireActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (mediaPlayer != null) {
-                    int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                if (musicService != null) {
+                    int mCurrentPosition = musicService.getCurrentPosition() / 1000;
                     playerBinding.seekBar.setProgress(mCurrentPosition);
                     playerBinding.tvDurationPlayed.setText(formattedTime(mCurrentPosition));
                 }
@@ -403,6 +416,22 @@ public class SongsFragment extends Fragment implements MusicListener {
 
     }
 
+    private void setMusicData(Music musicFile) {
+        playerBinding.songName.setText(musicFile.getTitle());
+        playerBinding.tvDurationTotal.setText(formattedTime(musicService.getDuration() / 1000));
+        metaData(uri);
+    }
+
+    private void setAnimation() {
+        anim = ObjectAnimator.ofFloat(playerBinding.songImageContainer, "rotation", 0, 360);
+        anim.setDuration(15000);
+        anim.setRepeatCount(5);
+        anim.setRepeatCount(Animation.INFINITE);
+        anim.setInterpolator(new LinearInterpolator());
+        anim.setRepeatMode(ObjectAnimator.RESTART);
+        anim.start();
+
+    }
 
     private String formattedTime(int mCurrentPosition) {
         String totalOut;
@@ -418,15 +447,14 @@ public class SongsFragment extends Fragment implements MusicListener {
         }
     }
 
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+        MusicService.MyBinder binder = (MusicService.MyBinder) iBinder;
+        musicService = binder.getService();
+    }
 
-    private void setAnimation() {
-        anim = ObjectAnimator.ofFloat(playerBinding.songImageContainer, "rotation", 0, 360);
-        anim.setDuration(15000);
-        anim.setRepeatCount(5);
-        anim.setRepeatCount(Animation.INFINITE);
-        anim.setInterpolator(new LinearInterpolator());
-        anim.setRepeatMode(ObjectAnimator.RESTART);
-        anim.start();
-
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+        musicService = null;
     }
 }

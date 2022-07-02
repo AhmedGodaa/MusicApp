@@ -1,6 +1,7 @@
 package com.examplez.musicapp.models;
 
 public class Constants {
+    public static final String KEY_PREFERENCE_NAME = "appPreference";
     public static final String KEY_TITLE = "music";
     public static final String KEY_PATH = "path";
     public static final String KEY_ARTIST = "artist";
@@ -13,6 +14,8 @@ public class Constants {
     public static final String ACTION_NEXT = "actionNext";
     public static final String ACTION_PREVIOUS = "actionPrevious";
     public static final String ACTION_PLAY = "actionPlay";
+    public static final String AUDIO_URI = "audioUri";
+    public static final String SERVICE_STARTER = "serviceStarter";
 
 
 }

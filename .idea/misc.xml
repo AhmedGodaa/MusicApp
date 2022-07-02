@@ -13,18 +13,20 @@
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/drawable/ic_menu.xml" value="0.1655" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/drawable/ic_music.xml" value="0.1655" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/drawable/ic_pause.xml" value="0.2335" />
+        <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/drawable/ic_play.xml" value="0.162" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/drawable/ic_search.xml" value="0.1655" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/drawable/ic_settings.xml" value="0.1655" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/drawable/round_outline.xml" value="0.1655" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/drawable/shape_radius.xml" value="0.216" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/activity_album.xml" value="0.3333333333333333" />
-        <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
+        <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/activity_main.xml" value="0.1125" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/activity_player.xml" value="0.15584415584415584" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/activity_splash.xml" value="0.17552083333333332" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/background_player.xml" value="0.11231884057971014" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/fragment_album.xml" value="0.25052083333333336" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/fragment_artists.xml" value="0.23645833333333333" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/fragment_genres.xml" value="0.25052083333333336" />
+        <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/fragment_player.xml" value="0.3333333333333333" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/fragment_playlists.xml" value="0.23645833333333333" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/fragment_songs.xml" value="0.23645833333333333" />
         <entry key="..\:/Android/Projects/MyProjects/MusicApp/app/src/main/res/layout/header.xml" value="0.3333333333333333" />

@@ -27,6 +27,7 @@ import com.examplez.musicapp.fragments.SongsFragment;
 import com.examplez.musicapp.models.Album;
 import com.examplez.musicapp.models.Artist;
 import com.examplez.musicapp.models.Music;
+import com.examplez.musicapp.utils.PreferenceManager;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -34,10 +35,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
-    private ActivityMainBinding binding;
+    ActivityMainBinding binding;
     TapAccessorAdapter tapAccessorAdapter;
     ViewPager viewPager;
     TabLayout tab;
+    PreferenceManager preferenceManager;
     public static final int REQUEST_CODE = 1;
     public static ArrayList<Music> musicFiles;
     public static ArrayList<Album> albumFiles;
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        preferenceManager = new PreferenceManager(getBaseContext());
         permission();
 
 
@@ -244,5 +247,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         songsFragment.musicAdapter.updateList(mFiles);
 
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
     }
 }
