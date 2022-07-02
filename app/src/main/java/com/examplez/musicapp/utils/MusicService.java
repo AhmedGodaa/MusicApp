@@ -47,17 +47,18 @@ public class MusicService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-//        position = Integer.parseInt(intent.getStringExtra(Constants.KEY_SERVICE_POSITION));
         activityBoolean = intent.getBooleanExtra(Constants.SERVICE_STARTER, true);
-        return START_STICKY;
-    }
-
-    public void playMedia(int position) {
         if (activityBoolean) {
             music = musicFiles;
         } else {
             music = songs;
+            position = Integer.parseInt(intent.getStringExtra(Constants.KEY_SERVICE_POSITION));
+            playMedia(position);
         }
+        return START_STICKY;
+    }
+
+    public void playMedia(int position) {
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();

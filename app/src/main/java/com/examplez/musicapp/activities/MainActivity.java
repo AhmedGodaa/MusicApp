@@ -153,8 +153,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 String genre = cursor.getString(6);
                 Music musicFiles = new Music(album, title, duration, path, artist, id, genre);
 
-
-                tempAudioList.add(musicFiles);
+                if (musicFiles.getDuration() != null) {
+                    tempAudioList.add(musicFiles);
+                }
             }
             cursor.close();
         }

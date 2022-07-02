@@ -23,6 +23,7 @@ import android.os.IBinder;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -92,11 +93,11 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
 
     @Override
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-//        MusicService.MyBinder binder = (MusicService.MyBinder) iBinder;
-//        musicService = binder.getService();
-//        Toast.makeText(this, "Connected" + musicService, Toast.LENGTH_SHORT).show();
-//        setSeekBar();
-//        setAnimation();
+        MusicService.MyBinder binder = (MusicService.MyBinder) iBinder;
+        musicService = binder.getService();
+        Toast.makeText(this, "Connected" + musicService, Toast.LENGTH_SHORT).show();
+        setSeekBar();
+        setAnimation();
 
 
     }

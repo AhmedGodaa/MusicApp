@@ -111,7 +111,6 @@ public class SongsFragment extends Fragment implements MusicListener, ServiceCon
         requireActivity().bindService(intent, this, BIND_AUTO_CREATE);
         intent.putExtra(Constants.SERVICE_STARTER, true);
         requireActivity().startService(intent);
-        Toast.makeText(requireContext(), "" + musicService, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -339,7 +338,7 @@ public class SongsFragment extends Fragment implements MusicListener, ServiceCon
             retriever.setDataSource(uri.toString());
             art = retriever.getEmbeddedPicture();
 
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         Bitmap bitmap;
