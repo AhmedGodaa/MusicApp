@@ -53,7 +53,7 @@ public class AlbumFragment extends Fragment implements AlbumListener {
     private void setRecyclerView() {
         binding.recyclerView.setHasFixedSize(true);
         if (!(albumFiles.size() < 1)) {
-            albumsAdapter = new AlbumsAdapter(albumFiles, this);
+            albumsAdapter = new AlbumsAdapter(albumFiles, this, getContext());
             binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
             binding.recyclerView.setAdapter(albumsAdapter);
         }

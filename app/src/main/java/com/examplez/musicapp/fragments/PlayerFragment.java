@@ -1,5 +1,6 @@
 package com.examplez.musicapp.fragments;
 
+import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,15 +8,13 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.examplez.musicapp.databinding.FragmentPlayerBinding;
 import com.examplez.musicapp.models.Constants;
-import com.examplez.musicapp.utils.PreferenceManager;
 
 
 public class PlayerFragment extends Fragment {
-    private FragmentPlayerBinding binding;
-    PreferenceManager preferenceManager;
-    public static boolean SHOW_MEDIA_PLAYER;
+     FragmentPlayerBinding binding;
 
 
     public PlayerFragment() {
@@ -34,20 +33,23 @@ public class PlayerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentPlayerBinding.inflate(getLayoutInflater());
-        preferenceManager = new PreferenceManager(requireContext());
-        String uri = preferenceManager.getString(Constants.AUDIO_URI);
+        if (Constants.SHOW_PLAYER) {
+            if (Constants.FRAGMENT_PATH != null) {
+                byte[] image = getImage(Constants.FRAGMENT_PATH);
+                Glide.with(requireContext()).load(image).into(binding.audioImage);
+//                binding.audioTitle.setText();
 
-        if (uri != null) {
-            binding.parentLayout.setVisibility(View.VISIBLE);
-            setData();
-        } else {
-            binding.parentLayout.setVisibility(View.GONE);
+            }
         }
+
         return binding.getRoot();
     }
 
-
-    private void setData() {
-        binding.audioDescription.setText("");
+    private byte[] getImage(String uri) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(uri);
+        return retriever.getEmbeddedPicture();
     }
+
+
 }

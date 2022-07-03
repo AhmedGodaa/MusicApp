@@ -4,12 +4,19 @@ import static com.examplez.musicapp.activities.MainActivity.albumFiles;
 import static com.examplez.musicapp.activities.MainActivity.musicFiles;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.GradientDrawable;
+import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.examplez.musicapp.R;
 import com.examplez.musicapp.adapters.MusicAdapter;
 import com.examplez.musicapp.databinding.ActivityAlbumBinding;
 import com.examplez.musicapp.listeners.MusicListener;
@@ -33,6 +40,7 @@ public class AlbumActivity extends AppCompatActivity implements MusicListener {
         setContentView(binding.getRoot());
         setData();
         setSongs();
+        setImage();
         setRecyclerView();
         binding.imageBack.setOnClickListener(v -> onBackPressed());
 
@@ -41,6 +49,7 @@ public class AlbumActivity extends AppCompatActivity implements MusicListener {
 
 
     private void setSongs() {
+        album = albumFiles.get(albumPosition);
         songs = new ArrayList<>();
         for (int i = 0; i < musicFiles.size(); i++) {
             if (musicFiles.get(i).getAlbum().equals(album.getAlbum())) {
@@ -57,6 +66,43 @@ public class AlbumActivity extends AppCompatActivity implements MusicListener {
         binding.albumName.setText(album.getAlbum());
         binding.albumAuthor.setText(album.getArtist());
         binding.albumDetails.setText(details);
+
+    }
+    private void setImage(){
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(songs.get(0).getPath());
+        byte[] image = retriever.getEmbeddedPicture();
+        if (image != null){
+            Glide.with(this).load(image).centerCrop().into(binding.albumImage);
+            Glide.with(this).load(image).centerCrop().into(binding.albumContainer);
+
+
+          Bitmap bitmap = BitmapFactory.decodeByteArray(image, 0, image.length);
+            Palette.from(bitmap).generate(palette -> {
+                assert palette != null;
+                Palette.Swatch swatch = palette.getDominantSwatch();
+                GradientDrawable gradientDrawable;
+                if (swatch != null) {
+
+                    gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                            new int[]{swatch.getRgb(), 0x00000000});
+
+
+                } else {
+                    gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                            new int[]{0xff000000, 0xff000000});
+
+                }
+                binding.albumLayer.setBackground(gradientDrawable);
+            });
+
+
+
+        }else {
+            Glide.with(this).load(R.drawable.im_logo).centerCrop().into(binding.albumImage);
+
+        }
+
     }
 
     private void setRecyclerView() {

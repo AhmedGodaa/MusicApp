@@ -1,5 +1,7 @@
 package com.examplez.musicapp.activities;
 
+import static com.examplez.musicapp.models.Constants.AUDIO_URI;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -12,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -26,6 +29,7 @@ import com.examplez.musicapp.databinding.ActivityMainBinding;
 import com.examplez.musicapp.fragments.SongsFragment;
 import com.examplez.musicapp.models.Album;
 import com.examplez.musicapp.models.Artist;
+import com.examplez.musicapp.models.Constants;
 import com.examplez.musicapp.models.Music;
 import com.examplez.musicapp.utils.PreferenceManager;
 import com.google.android.material.tabs.TabLayout;
@@ -128,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         tab.setupWithViewPager(viewPager);
     }
 
+
     public static ArrayList<Music> getAllAudio(Context context) {
         ArrayList<Music> tempAudioList = new ArrayList<>();
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
@@ -138,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media._ID,
-                MediaStore.Audio.Media.GENRE,
 
         };
         Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
@@ -150,8 +154,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
                 String path = cursor.getString(3);
                 String artist = cursor.getString(4);
                 String id = cursor.getString(5);
-                String genre = cursor.getString(6);
-                Music musicFiles = new Music(album, title, duration, path, artist, id, genre);
+                Music musicFiles = new Music(album, title, duration, path, artist, id);
 
                 if (musicFiles.getDuration() != null) {
                     tempAudioList.add(musicFiles);
@@ -253,7 +256,25 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     protected void onResume() {
         super.onResume();
+        String uri = preferenceManager.getString(AUDIO_URI);
+        Toast.makeText(this, "  " + uri, Toast.LENGTH_SHORT).show();
+        if (uri != null) {
+            binding.musicPlayer.setVisibility(View.VISIBLE);
+            Constants.SHOW_PLAYER = true;
+            Constants.FRAGMENT_PATH = uri;
+
+        } else {
+            binding.musicPlayer.setVisibility(View.GONE);
+            Constants.SHOW_PLAYER = false;
+            Constants.FRAGMENT_PATH = null;
+        }
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        preferenceManager.putString(AUDIO_URI, null);
     }
 }

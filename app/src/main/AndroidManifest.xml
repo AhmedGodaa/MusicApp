@@ -16,6 +16,7 @@
         android:label="@string/app_name"
         android:name=".utils.ApplicationClass"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:requestLegacyExternalStorage="true"
         android:supportsRtl="false"
         android:theme="@style/Theme.Light">
         <activity

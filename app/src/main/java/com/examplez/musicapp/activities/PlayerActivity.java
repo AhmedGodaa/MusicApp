@@ -461,7 +461,6 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlaying, 
     private byte[] getImage(String uri) {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         retriever.setDataSource(uri);
-        byte[] art = retriever.getEmbeddedPicture();
-        return art;
+        return retriever.getEmbeddedPicture();
     }
 }

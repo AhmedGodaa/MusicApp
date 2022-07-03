@@ -7,16 +7,16 @@ public class Music {
     private String path;
     private String artist;
     private String id;
-    private String genre;
 
-    public Music(String album, String title, String duration, String path, String artist, String id, String genre) {
+
+    public Music(String album, String title, String duration, String path, String artist, String id) {
         this.album = album;
         this.title = title;
         this.duration = duration;
         this.path = path;
         this.artist = artist;
         this.id = id;
-        this.genre = genre;
+
     }
 
 
@@ -48,11 +48,4 @@ public class Music {
         return id;
     }
 
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
 }

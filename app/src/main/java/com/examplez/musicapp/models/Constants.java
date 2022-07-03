@@ -16,6 +16,8 @@ public class Constants {
     public static final String ACTION_PLAY = "actionPlay";
     public static final String AUDIO_URI = "audioUri";
     public static final String SERVICE_STARTER = "serviceStarter";
+    public static boolean SHOW_PLAYER;
+    public static String FRAGMENT_PATH = "fragmentPath";
 
 
 }
