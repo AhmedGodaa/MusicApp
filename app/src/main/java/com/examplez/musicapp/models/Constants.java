@@ -18,6 +18,8 @@ public class Constants {
     public static final String SERVICE_STARTER = "serviceStarter";
     public static boolean SHOW_PLAYER;
     public static String FRAGMENT_PATH = "fragmentPath";
+    public static String PLAYED_AUDIO_NAME;
+    public static String PLAYED_AUDIO_ARTIST;
 
 
 }
